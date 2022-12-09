@@ -1,0 +1,12 @@
+<div *ngIf="!isLoading else loading">
+  <div *ngIf="!isNearbyExisting" class="text-light">No nearby identities</div>
+  <div class="w-full flex flex-row flex-wrap justify-center gap-12">
+    <div *ngFor="let nearbyIdentity of nearbyIdentities">
+      <app-nearby-identity [name]="nearbyIdentity.name" [distance]="nearbyIdentity.distance"></app-nearby-identity>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <app-loading size="large">Loading</app-loading>
+</ng-template>
+<app-modal></app-modal>

@@ -1,0 +1,19 @@
+<div [id]="'container-'+id" class="fixed inset-0 w-full h-screen z-10 invisible">
+  <div [id]="'background-'+id" (click)="toggleModal($event)" class="absolute inset-0 w-full h-full transition-all ease-out duration-300 bg-gray-900 opacity-0"></div>
+  <div [id]="id" class="absolute bottom-0 w-full rounded-t-3xl transition-all translate-y-full ease-out duration-200 bg-dark-400">
+    <div class="w-full flex flex-col items-center">
+      <div class="w-full max-w-lg px-4">
+        <div class="w-full flex flex-col items-center gap-4 pt-3 mb-8">
+          <div class="w-16 h-1 rounded-full bg-light"></div>
+          <div class="relative w-full flex flex-row justify-center items-center">
+            <button (click)="onLeftButtonClick($event)" class="absolute left-0 text-brand select-none">{{ leftButton }}</button>
+            <div class="font-bold text-light">{{ title }}</div>
+            <button (click)="onRightButtonClick($event)" class="absolute right-0 text-brand select-none">{{ rightButton }}</button>
+          </div>
+          <div class="w-full h-0.5 bg-dark-300"></div>
+        </div>
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
