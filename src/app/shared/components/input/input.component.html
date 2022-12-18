@@ -1,13 +1,15 @@
 <div class="relative w-full h-full">
   <input
+    [id]="id"
     [(ngModel)]="value"
     (input)="onInputChange.emit(value)"
     (blur)="validate()"
     [type]="inputType"
     [placeholder]="placeholder"
     [disabled]="disabled"
-    class="block w-full px-4 py-2 border-2 border-basic focus:border-light rounded-full bg-transparent text-base text-light placeholder:text-basic-300 focus:ring-0"
+    class="block w-full px-4 py-2 border-2 rounded-full bg-transparent text-base text-light placeholder:text-basic-300 focus:ring-0"
     [ngClass]="{
+      'border-basic focus:border-light': isValid,
       'border-red-500 focus:border-red-500': !isValid,
       'pr-14': (inputType === 'text') || (inputType === 'search') || (inputType === 'email'),
       'pr-24': inputType === 'password' && value

@@ -11,7 +11,7 @@ export class IpPageComponent implements OnInit {
 
   private _loading: boolean = true
 
-  get isLoading (): boolean {
+  get loading (): boolean {
     return this._loading
   }
 
@@ -19,7 +19,7 @@ export class IpPageComponent implements OnInit {
     return this.nearbyService.nearbyIpIdentities
   }
 
-  get isNearbyExisting (): boolean {
+  get nearbyExisting (): boolean {
     return this.nearbyService.nearbyIpIdentities.length > 0
   }
 

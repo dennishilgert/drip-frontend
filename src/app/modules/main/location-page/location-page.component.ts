@@ -16,7 +16,7 @@ export class LocationPageComponent implements OnInit {
   private _loading: boolean = true
   private _geolocationAccess: boolean = false
 
-  get isLoading (): boolean {
+  get loading (): boolean {
     return this._loading
   }
 
@@ -28,7 +28,7 @@ export class LocationPageComponent implements OnInit {
     return this.nearbyService.nearbyGeolocationIdentities
   }
 
-  get isNearbyExisting (): boolean {
+  get nearbyExisting (): boolean {
     return this.nearbyService.nearbyGeolocationIdentities.length > 0
   }
 

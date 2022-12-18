@@ -1,5 +1,5 @@
-<div *ngIf="!isLoading && hasGeolocationAccess else loading">
-  <div *ngIf="!isNearbyExisting" class="text-light">
+<div *ngIf="!loading && hasGeolocationAccess else showLoading">
+  <div *ngIf="!nearbyExisting" class="text-light">
     No nearby identities
   </div>
   <div class="w-full flex flex-row flex-wrap justify-center gap-12">
@@ -8,12 +8,12 @@
     </div>
   </div>
 </div>
-<ng-template #loading>
-  <div *ngIf="isLoading && hasGeolocationAccess else noAccess">
+<ng-template #showLoading>
+  <div *ngIf="loading && hasGeolocationAccess else showNoAccess">
     <app-loading size="large">Loading</app-loading>
   </div>
 </ng-template>
-<ng-template #noAccess>
+<ng-template #showNoAccess>
   <div class="flex flex-row justify-center items-center gap-4 p-4 bg-dark-300 rounded-2xl text-light">
     <svg xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"

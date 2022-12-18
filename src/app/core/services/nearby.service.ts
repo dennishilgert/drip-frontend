@@ -42,9 +42,7 @@ export class NearbyService {
 
   async updateNearbyGeolocationIdentities (): Promise<INearbyIdentityList> {
     if (!this.identityService.isGeolocationSet) {
-      return new Promise((resolve) => {
-        return resolve({ nearbyIdentities: [] })
-      })
+      return { nearbyIdentities: [] }
     }
     const requestPromise: Promise<INearbyIdentityList> = this.apiService.doGetRequest<INearbyIdentityList>('/nearby/geolocation', {
       headers: new HttpHeaders({ 'Authorization': `Bearer ${this.identityService.getIdentityUuid}` }),

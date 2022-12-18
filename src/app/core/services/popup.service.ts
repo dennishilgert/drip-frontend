@@ -1,6 +1,51 @@
 import { Injectable } from '@angular/core';
 import { IPopup } from 'src/app/models/popup.model';
+import { ISocketRequest } from 'src/app/models/socket.model';
 import { randomString } from 'src/app/shared/helpers/stringHelper';
+import { RequestType } from './socket.service';
+
+export class PopupBuilder {
+  private _title: string = 'No title'
+  private _content: string = 'No content'
+  private _socketRequest: ISocketRequest = { requestType: RequestType.MESSAGE_TRANSMISSION, requestUuid: '' }
+  private _leftButtonCallback: Function = () => {}
+  private _rightButtonCallback: Function = () => {}
+
+  title (title: string): PopupBuilder {
+    this._title = title
+    return this
+  }
+
+  content (content: string): PopupBuilder {
+    this._content = content
+    return this
+  }
+
+  request (socketRequest: ISocketRequest): PopupBuilder {
+    this._socketRequest = socketRequest
+    return this
+  }
+
+  leftButton (leftButtonCallback: Function): PopupBuilder {
+    this._leftButtonCallback = leftButtonCallback
+    return this
+  }
+
+  rightButton (rightButtonCallback: Function): PopupBuilder {
+    this._rightButtonCallback = rightButtonCallback
+    return this
+  }
+
+  build (): IPopup {
+    return {
+      title: this._title,
+      content: this._content,
+      socketRequest: this._socketRequest,
+      leftButtonCallback: this._leftButtonCallback,
+      rightButtonCallback: this._rightButtonCallback
+    }
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +84,19 @@ export class PopupService {
       this._currentPopup = undefined
       this.nextPopup()
     }, 200)
+  }
+
+  async retractPopup (requestUuid: string): Promise<void> {
+    if (this._currentPopup?.socketRequest.requestUuid === requestUuid) {
+      this.dismissPopup()
+      return
+    }
+    this._popups.forEach((popup: IPopup, index: number) => {
+      if (popup.socketRequest.requestUuid === requestUuid) {
+        this._popups.splice(index, 1)
+        return
+      }
+    })
   }
 
   nextPopup (): void {

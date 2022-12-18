@@ -1,9 +1,10 @@
-import { ISendingRequest } from "./sending.model"
+import { ISocketRequest } from "./socket.model"
 
 export interface IPopup {
   id?: string
   title: string
-  sendingRequest: ISendingRequest
+  content: string
+  socketRequest: ISocketRequest
   leftButtonCallback?: Function
   rightButtonCallback?: Function
   triggeredAt?: Date

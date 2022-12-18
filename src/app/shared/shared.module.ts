@@ -11,6 +11,8 @@ import { NearbyIdentityComponent } from './components/nearby-identity/nearby-ide
 import { ModalComponent } from './components/modal/modal.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { PopupComponent } from './components/popup/popup.component';
+import { FileInputComponent } from './components/file-input/file-input.component';
+import { SearchInputComponent } from './components/search-input/search-input.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { PopupComponent } from './components/popup/popup.component';
     NearbyIdentityComponent,
     ModalComponent,
     ToastComponent,
-    PopupComponent
+    PopupComponent,
+    FileInputComponent,
+    SearchInputComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +38,8 @@ import { PopupComponent } from './components/popup/popup.component';
     FormsModule,
     ButtonComponent,
     InputComponent,
+    FileInputComponent,
+    SearchInputComponent,
     RadioButtonComponent,
     ModalComponent,
     PopupComponent,

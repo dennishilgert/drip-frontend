@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { escapeHtml } from '../../helpers/safetyHelper';
 import { randomString } from '../../helpers/stringHelper';
 
 export enum ModalState {
@@ -27,6 +28,10 @@ export class ModalComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { 
+  }
+
+  escapeHtml (input: string): string {
+    return escapeHtml(input)
   }
 
   toggleModal (event: Event) {

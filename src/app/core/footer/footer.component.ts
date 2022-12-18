@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { escapeHtml } from 'src/app/shared/helpers/safetyHelper';
 import { IdentityService } from '../services/identity.service';
 
 @Component({
@@ -12,9 +13,12 @@ export class FooterComponent implements OnInit {
     return this.identityService.getIdentityName
   }
 
-  constructor(private identityService: IdentityService) { }
+  constructor (private identityService: IdentityService) { }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
   }
 
+  escapeHtml (input: string): string {
+    return escapeHtml(input)
+  }
 }

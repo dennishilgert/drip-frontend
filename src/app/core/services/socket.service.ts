@@ -1,25 +1,36 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { IIdentity } from 'src/app/models/identity.model';
-import { IFileSending, ISendingRequest, ISendingResponse, IMessageSending } from 'src/app/models/sending.model';
+import { IPopup } from 'src/app/models/popup.model';
+import { ITransmissionRequest, ITransmissionResponse } from 'src/app/models/transmission.model';
+import { ISocketRequest, ISocketResponse } from 'src/app/models/socket.model';
 import { NearbyService } from './nearby.service';
-import { PopupService } from './popup.service';
-import { SendingService } from './sending.service';
+import { PopupBuilder, PopupService } from './popup.service';
 import { StateService } from './state.service';
+import { ToastService, ToastType } from './toast.service';
 
 export enum SocketEvent {
   CONNECT = 'connect',
   CONNECT_ERROR = 'connect_error',
   DISCONNECT = 'disconnect',
   IDENTIFY = 'identify',
+  REQUEST = 'request',
+  REQUEST_TIMEOUT = 'request:timeout',
+  REQUEST_RETRACTED = 'request:retracted',
+  RESPONSE = 'response',
   UPDATED_GEOLOCATION = 'updated:geolocation',
   UPDATE_NEARBY_GEOLOCATION = 'update:nearby-geolocation',
   UPDATE_NEARBY_IP = 'update:nearby-ip',
-  SENDING_REQUEST = 'request:sending',
-  SENDING_RESPONSE = 'response:sending',
-  MESSAGE_SENDING = 'data:message-sending',
-  FILE_SENDING = 'data:file-sending'
+  MESSAGE_TRANSMISSION = 'transmission:message',
+  FILE_TRANSMISSION = 'transmission:file'
 }
+
+export enum RequestType {
+  MESSAGE_TRANSMISSION = 'message-transmission',
+  FILE_TRANSMISSION = 'file-transmission'
+}
+
+export class SocketRequestTimeoutError extends Error {}
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +42,7 @@ export class SocketService {
   constructor (
     private stateService: StateService,
     private nearbyService: NearbyService,
-    private sendingService: SendingService,
+    private toastService: ToastService,
     private popupService: PopupService
   ) {
     this.socket = io('http://localhost:8082', {
@@ -68,46 +79,102 @@ export class SocketService {
       this.nearbyService.updateNearbyGeolocationIdentities()
     })
 
-    this.socket.on(SocketEvent.SENDING_REQUEST, (request: string) => {
-      const sendingRequest: ISendingRequest = JSON.parse(request)
+    this.socket.on(SocketEvent.REQUEST, (request: string) => {
+      const socketRequest: ISocketRequest = JSON.parse(request)
 
-      this.popupService.showPopup({
-        title: 'Sending request from ' + sendingRequest.fromName,
-        sendingRequest,
-        leftButtonCallback: () => {
-          const sendingResponse: ISendingResponse = {
-            accepted: false
-          }
-          this.emitEvent(SocketEvent.SENDING_RESPONSE, JSON.stringify(sendingResponse))
-          this.popupService.dismissPopup()
-        },
-        rightButtonCallback: () => {
-          const sendingResponse: ISendingResponse = {
-            accepted: true
-          }
-          this.emitEvent(SocketEvent.SENDING_RESPONSE, JSON.stringify(sendingResponse))
-          this.popupService.dismissPopup()
-        }
-      })
+      if (
+        socketRequest.requestType === RequestType.MESSAGE_TRANSMISSION ||
+        socketRequest.requestType === RequestType.FILE_TRANSMISSION
+      ) {
+        const transmissionRequest: ITransmissionRequest = socketRequest as ITransmissionRequest
+        this.showRequestPopup(transmissionRequest)
+      }
     })
 
-    this.socket.on(SocketEvent.MESSAGE_SENDING, (data: string) => {
-      const messageSending: IMessageSending = JSON.parse(data)
-      this.sendingService.addSendingToInbox(messageSending)
-    })
-
-    this.socket.on(SocketEvent.FILE_SENDING, (data: string) => {
-      const fileSending: IFileSending = JSON.parse(data)
-      this.sendingService.addSendingToInbox(fileSending)
-      this.sendingService.downloadSending(fileSending)
+    this.socket.on(SocketEvent.REQUEST_RETRACTED, (data: string) => {
+      const socketResponse: ISocketResponse = JSON.parse(data)
+      this.popupService.retractPopup(socketResponse.requestUuid)
     })
   }
 
   emitEvent (event: string, data?: string): void {
     if (!this.socket.connected) {
+      this.toastService.showToast({
+        title: 'Failed to emit event - socket not connected',
+        type: ToastType.ERROR
+      })
+
       console.log('Cannot emit event - socket not connected')
       return
     }
     this.socket.emit(event, data)
+  }
+
+  sendResponse (requestUuid: string, data?: any): void {
+    const socketResponse: ISocketResponse = {
+      requestUuid,
+      ...data
+    }
+    this.emitEvent(SocketEvent.RESPONSE, JSON.stringify(socketResponse))
+  }
+
+  injectListener (event: string, listener: (...args: any[]) => void): void {
+    this.socket.on(event, listener)
+  }
+
+  removeListener (event: string, listener: (...args: any[]) => void): void {
+    this.socket.removeListener(event, listener)
+  }
+
+  private showRequestPopup (socketRequest: ISocketRequest): void {
+    switch (socketRequest.requestType) {
+      case RequestType.MESSAGE_TRANSMISSION: {
+        const transmissionRequest: ITransmissionRequest = socketRequest as ITransmissionRequest
+        const popup: IPopup = new PopupBuilder()
+          .title(`${transmissionRequest.fromName} would like to share a message`)
+          .content('Message')
+          .request(socketRequest)
+          .leftButton(() => {
+            this.sendResponse(socketRequest.requestUuid, { accepted: false } as ITransmissionResponse)
+          })
+          .rightButton(() => {
+            this.sendResponse(socketRequest.requestUuid, { accepted: true } as ITransmissionResponse)
+          })
+          .build()
+        this.popupService.showPopup(popup)
+        break
+      }
+      case RequestType.FILE_TRANSMISSION: {
+        const transmissionRequest: ITransmissionRequest = socketRequest as ITransmissionRequest
+        const popup: IPopup = new PopupBuilder()
+          .title(`${transmissionRequest.fromName} would like to share a file`)
+          .content(transmissionRequest.fileOriginalName!)
+          .request(socketRequest)
+          .leftButton(() => {
+            this.sendResponse(socketRequest.requestUuid, { accepted: false } as ITransmissionResponse)
+          })
+          .rightButton(() => {
+            this.sendResponse(socketRequest.requestUuid, { accepted: true } as ITransmissionResponse)
+          })
+          .build()
+        this.popupService.showPopup(popup)
+        break
+      }
+      default: {
+        const popup: IPopup = new PopupBuilder()
+          .title(socketRequest.requestType)
+          .content(socketRequest.requestType)
+          .request(socketRequest)
+          .leftButton(() => {
+            console.log('Unknown request type')
+          })
+          .rightButton(() => {
+            console.log('Unknown request type')
+          })
+          .build()
+        this.popupService.showPopup(popup)
+        break
+      }
+    }
   }
 }

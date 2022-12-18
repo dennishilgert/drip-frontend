@@ -11,7 +11,7 @@ import { IIdentity } from './models/identity.model';
 })
 export class AppComponent implements OnInit {
 
-  get isReady (): boolean {
+  get ready (): boolean {
     return this.stateService.isReady
   }
 

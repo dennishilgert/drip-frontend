@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IIdentity, IUpdateIdentityLocationData } from 'src/app/models/identity.model';
+import { IIdentity, ILookupIdentity, ILookupIdentityData, IUpdateIdentityLocationData } from 'src/app/models/identity.model';
 import { ApiService } from './api.service';
 import { SocketService } from './socket.service';
 import { StateService } from './state.service';
@@ -68,6 +68,14 @@ export class IdentityService {
     return requestPromise
   }
 
+  async lookupIdentity (input: ILookupIdentityData): Promise<ILookupIdentity> {
+    const requestPromise: Promise<ILookupIdentity> = this.apiService.doGetRequest<ILookupIdentity>(`/identities/${input.name}`, {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.getIdentityUuid}` }),
+      responseType: 'json' as 'arraybuffer'
+    })
+    return requestPromise
+  }
+
   async updateLocation (input: IUpdateIdentityLocationData): Promise<IUpdateIdentityLocationData> {
     const requestPromise: Promise<IUpdateIdentityLocationData> = this.apiService.doPatchRequest<IUpdateIdentityLocationData>('/identities/geolocation', input, new HttpHeaders({ 'Authorization': `Bearer ${this.getIdentityUuid}` }))
     requestPromise
@@ -82,11 +90,6 @@ export class IdentityService {
 
         console.log('Error thrown while updating identity geolocation: ', error)
       })
-    return requestPromise
-  }
-
-  async deleteIdentity (): Promise<Object> {
-    const requestPromise: Promise<Object> = this.apiService.doDeleteRequest('/identities', {}, new HttpHeaders({ 'Authorization': `Bearer ${this.getIdentityUuid}` }))
     return requestPromise
   }
 }
