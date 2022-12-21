@@ -3,6 +3,6 @@
  * @param {string} path - The path to the file.
  * @returns The file name of the path.
  */
-export function extractFileName (path: string): string {
-  return path.replace(/^.*[\\\/]/, '')
+export function extractFileName(path: string): string {
+  return path.replace(/^.*[\\/]/, '')
 }

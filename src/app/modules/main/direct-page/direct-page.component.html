@@ -4,12 +4,12 @@
     <app-search-input
       placeholder="Anonymous Blobfish"
       name="identitySearch"
-      (onSearch)="searchIdentity($event)"
+      (searchChange)="searchIdentity($event)"
       class="w-full"
     >
     </app-search-input>
   </div>
-  <div *ngIf="matchedIdentity else showNotFound">
+  <div *ngIf="matchedIdentity; else showNotFound">
     <app-nearby-identity [name]="matchedIdentity" distance="Direct"></app-nearby-identity>
   </div>
   <ng-template #showNotFound>

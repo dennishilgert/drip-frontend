@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { io, Socket } from 'socket.io-client';
-import { IIdentity } from 'src/app/models/identity.model';
-import { IPopup } from 'src/app/models/popup.model';
-import { ITransmissionRequest, ITransmissionResponse } from 'src/app/models/transmission.model';
-import { ISocketRequest, ISocketResponse } from 'src/app/models/socket.model';
-import { NearbyService } from './nearby.service';
-import { PopupBuilder, PopupService } from './popup.service';
-import { StateService } from './state.service';
-import { ToastService, ToastType } from './toast.service';
+import { Injectable } from '@angular/core'
+import { io, Socket } from 'socket.io-client'
+import { IIdentity } from 'src/app/models/identity.model'
+import { IPopup } from 'src/app/models/popup.model'
+import { ITransmissionRequest, ITransmissionResponse } from 'src/app/models/transmission.model'
+import { ISocketRequest, ISocketResponse } from 'src/app/models/socket.model'
+import { NearbyService } from './nearby.service'
+import { PopupBuilder, PopupService } from './popup.service'
+import { StateService } from './state.service'
+import { ToastService, ToastType } from './toast.service'
 
 export enum SocketEvent {
   CONNECT = 'connect',
@@ -36,10 +36,9 @@ export class SocketRequestTimeoutError extends Error {}
   providedIn: 'root'
 })
 export class SocketService {
-
   private readonly socket: Socket
 
-  constructor (
+  constructor(
     private stateService: StateService,
     private nearbyService: NearbyService,
     private toastService: ToastService,
@@ -50,12 +49,12 @@ export class SocketService {
     })
   }
 
-  async init (identity: IIdentity) {
+  async init(identity: IIdentity) {
     this.socket.connect()
 
     this.socket.on(SocketEvent.CONNECT, () => {
       console.log('Socket connected')
-      
+
       this.stateService.socketReady = true
       this.emitEvent(SocketEvent.IDENTIFY, identity.uuid)
     })
@@ -97,7 +96,7 @@ export class SocketService {
     })
   }
 
-  emitEvent (event: string, data?: string): void {
+  emitEvent(event: string, data?: string): void {
     if (!this.socket.connected) {
       this.toastService.showToast({
         title: 'Failed to emit event - socket not connected',
@@ -110,7 +109,7 @@ export class SocketService {
     this.socket.emit(event, data)
   }
 
-  sendResponse (requestUuid: string, data?: any): void {
+  sendResponse(requestUuid: string, data?: any): void {
     const socketResponse: ISocketResponse = {
       requestUuid,
       ...data
@@ -118,15 +117,15 @@ export class SocketService {
     this.emitEvent(SocketEvent.RESPONSE, JSON.stringify(socketResponse))
   }
 
-  injectListener (event: string, listener: (...args: any[]) => void): void {
+  injectListener(event: string, listener: (...args: any[]) => void): void {
     this.socket.on(event, listener)
   }
 
-  removeListener (event: string, listener: (...args: any[]) => void): void {
+  removeListener(event: string, listener: (...args: any[]) => void): void {
     this.socket.removeListener(event, listener)
   }
 
-  private showRequestPopup (socketRequest: ISocketRequest): void {
+  private showRequestPopup(socketRequest: ISocketRequest): void {
     switch (socketRequest.requestType) {
       case RequestType.MESSAGE_TRANSMISSION: {
         const transmissionRequest: ITransmissionRequest = socketRequest as ITransmissionRequest
@@ -148,7 +147,7 @@ export class SocketService {
         const transmissionRequest: ITransmissionRequest = socketRequest as ITransmissionRequest
         const popup: IPopup = new PopupBuilder()
           .title(`${transmissionRequest.fromName} would like to share a file`)
-          .content(transmissionRequest.fileOriginalName!)
+          .content(transmissionRequest.fileOriginalName as string)
           .request(socketRequest)
           .leftButton(() => {
             this.sendResponse(socketRequest.requestUuid, { accepted: false } as ITransmissionResponse)

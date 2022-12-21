@@ -1,7 +1,5 @@
-<div *ngIf="!loading && hasGeolocationAccess else showLoading">
-  <div *ngIf="!nearbyExisting" class="text-light">
-    No nearby identities
-  </div>
+<div *ngIf="!loading && hasGeolocationAccess; else showLoading">
+  <div *ngIf="!nearbyExisting" class="text-light">No nearby identities</div>
   <div class="w-full flex flex-row flex-wrap justify-center gap-12">
     <div *ngFor="let nearbyIdentity of nearbyIdentities">
       <app-nearby-identity [name]="nearbyIdentity.name" [distance]="nearbyIdentity.distance"></app-nearby-identity>
@@ -9,23 +7,20 @@
   </div>
 </div>
 <ng-template #showLoading>
-  <div *ngIf="loading && hasGeolocationAccess else showNoAccess">
+  <div *ngIf="loading && hasGeolocationAccess; else showNoAccess">
     <app-loading size="large">Loading</app-loading>
   </div>
 </ng-template>
 <ng-template #showNoAccess>
   <div class="flex flex-row justify-center items-center gap-4 p-4 bg-dark-300 rounded-2xl text-light">
-    <svg xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width="36"
-      height="36"
-    >
-      <path fill="none" d="M0 0h24v24H0z"/>
-      <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10
-        10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z" fill="currentColor"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+      <path fill="none" d="M0 0h24v24H0z" />
+      <path
+        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10
+        10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z"
+        fill="currentColor"
+      />
     </svg>
-    <div>
-      Please grant access to your geolocation in order to use it
-    </div>
+    <div>Please grant access to your geolocation in order to use it</div>
   </div>
 </ng-template>

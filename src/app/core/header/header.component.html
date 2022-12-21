@@ -1,20 +1,19 @@
 <div class="w-full h-32 flex flex-col justify-center items-center gap-6 px-6">
   <div class="relative w-full max-w-lg flex flex-row justify-center items-center">
-    <div class="text-2xl font-bold text-light">
-      Drip
-    </div>
+    <div class="text-2xl font-bold text-light">Drip</div>
     <button class="absolute right-0 text-light" (click)="toggleInboxModal($event)">
       <div class="relative">
-        <div *ngIf="unreadTransmissions" class="absolute -bottom-1 -right-1 w-2.5 h-2.5 rounded-full bg-orange-500"></div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-        >
-          <path fill="none" d="M0 0h24v24H0z"/>
-          <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm6 9a3 3 0 0 0 6
-            0h5V5H4v7h5z" fill="currentColor"/>
+        <div
+          *ngIf="unreadTransmissions"
+          class="absolute -bottom-1 -right-1 w-2.5 h-2.5 rounded-full bg-orange-500"
+        ></div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path
+            d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm6 9a3 3 0 0 0 6
+            0h5V5H4v7h5z"
+            fill="currentColor"
+          />
         </svg>
       </div>
     </button>
@@ -26,13 +25,20 @@
   </nav>
 </div>
 
-<app-modal title="Inbox" leftButton="Clear" rightButton="Done" (onLeftButton)="clearInbox($event)" (onRightButton)="toggleInboxModal($event)" #inboxModal>
+<app-modal
+  title="Inbox"
+  leftButtonLabel="Clear"
+  rightButtonLabel="Done"
+  (leftButton)="clearInbox($event)"
+  (rightButton)="toggleInboxModal($event)"
+  #inboxModal
+>
   <div class="w-full flex flex-col items-center gap-4 pb-12 text-light">
     <div class="w-full max-h-[60vh] overflow-y-auto flex flex-col items-center gap-4">
       <div *ngIf="inbox.length < 1" class="text-white">Your inbox is empty</div>
       <div *ngFor="let transmission of inbox" class="w-full">
         <div class="w-full flex flex-col gap-2 rounded-2xl p-4 bg-dark-300">
-          <div class="text-xs font-bold text-brand">{{ escapeHtml(transmission.fromName) }}</div>
+          <div class="text-xs font-bold text-brand">{{ transmission.fromName }}</div>
           <div
             class="break-words"
             [ngClass]="{
@@ -40,9 +46,9 @@
               'text-basic-300': !transmission.message
             }"
           >
-            {{ transmission.message ? escapeHtml(transmission.message!) : escapeHtml(transmission.fileOriginalName!) }}
+            {{ transmission.message ? transmission.message! : transmission.fileOriginalName! }}
           </div>
-          <div class="text-sm text-basic">{{ transmission.receivedAt?.toLocaleTimeString() }}</div>
+          <div class="text-sm text-basic">{{ transmission.receivedAt!.toLocaleTimeString() }}</div>
         </div>
       </div>
     </div>

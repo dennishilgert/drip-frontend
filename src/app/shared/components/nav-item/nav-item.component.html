@@ -3,7 +3,9 @@
     [routerLink]="to"
     routerLinkActive="bg-brand"
     [routerLinkActiveOptions]="{ exact: exactMatch }"
-    class="relative flex items-center justify-center px-2 py-0.5 rounded-full font-medium text-sm text-light transition-colors ease-in-out duration-200 {{ width }} {{ height }}"
+    class="relative flex items-center justify-center px-2 py-0.5 rounded-full font-medium text-sm text-light transition-colors ease-in-out duration-200 {{
+      width
+    }} {{ height }}"
   >
     <ng-content></ng-content>
   </a>

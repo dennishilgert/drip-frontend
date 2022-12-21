@@ -1,9 +1,18 @@
 <div *ngIf="currentPopup">
-  <div [id]="'container-'+currentPopup!.id" class="fixed inset-0 w-full h-screen flex flex-col justify-center items-center px-8 z-20 invisible">
-    <div [id]="'background-'+currentPopup!.id" class="absolute inset-0 w-full h-full transition-all ease-out duration-300 bg-gray-900 opacity-0"></div>
-    <div [id]="currentPopup!.id" class="relative w-full md:max-w-xs flex flex-col items-center gap-2 p-4 rounded-2xl transition-all ease-out duration-200 bg-dark-400 opacity-0">
-      <div class="text-center font-bold text-light">{{ escapeHtml(currentPopup!.title) }}</div>
-      <div class="w-full break-words text-center text-light">{{ escapeHtml(currentPopup!.content) }}</div>
+  <div
+    [id]="'container-' + currentPopup!.id"
+    class="fixed inset-0 w-full h-screen flex flex-col justify-center items-center px-8 z-20 invisible"
+  >
+    <div
+      [id]="'background-' + currentPopup!.id"
+      class="absolute inset-0 w-full h-full transition-all ease-out duration-300 bg-gray-900 opacity-0"
+    ></div>
+    <div
+      [id]="currentPopup!.id"
+      class="relative w-full md:max-w-xs flex flex-col items-center gap-2 p-4 rounded-2xl transition-all ease-out duration-200 bg-dark-400 opacity-0"
+    >
+      <div class="text-center font-bold text-light">{{ currentPopup!.title }}</div>
+      <div class="w-full break-words text-center text-light">{{ currentPopup!.content }}</div>
       <div class="w-full flex flex-row justify-around items-center mt-4">
         <button (click)="onLeftButtonClick($event)" class="font-bold text-brand select-none">Decline</button>
         <button (click)="onRightButtonClick($event)" class="font-bold text-brand select-none">Accept</button>

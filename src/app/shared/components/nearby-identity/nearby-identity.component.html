@@ -2,16 +2,16 @@
   <div class="w-12 h-12 flex justify-center items-center rounded-full border-2 border-light-700">
     <div class="w-9 h-9 rounded-full bg-brand"></div>
   </div>
-  <div class="font-bold text-light">{{ escapeHtml(name) }}</div>
-  <div class="text-xs font-light text-light select-none">{{ escapeHtml(distance) }}</div>
+  <div class="font-bold text-light">{{ name }}</div>
+  <div class="text-xs font-light text-light select-none">{{ distance }}</div>
 </div>
 
-<app-modal [title]="name" rightButton="Done" (onRightButton)="toggleOptionsModal($event)" #optionsModal>
+<app-modal [title]="name" rightButtonLabel="Done" (rightButton)="toggleOptionsModal($event)" #optionsModal>
   <div class="w-full flex flex-col items-center gap-4 pb-12 text-light">
     <form (keydown.enter)="sendMessage($event)" class="w-full flex flex-row items-center gap-2">
       <app-input
-        (onInputChange)="updateMessage($event)"
-        (onValidationChange)="updateMessageValidation($event)"
+        (inputChange)="updateMessage($event)"
+        (validationChange)="updateMessageValidation($event)"
         [validation]="messageInputValidation"
         placeholder="Type message"
         name="message"
@@ -20,19 +20,14 @@
         #messageInput
       >
       </app-input>
-      <app-button
-        (onClick)="sendMessage($event)"
-        [loading]="messageLoading"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-        >
-          <path fill="none" d="M0 0h24v24H0z"/>
-          <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12
-            14l6-8-8 6-8.054-2.685z" fill="currentColor"/>
+      <app-button (buttonClick)="sendMessage($event)" [loading]="messageLoading">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path
+            d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12
+            14l6-8-8 6-8.054-2.685z"
+            fill="currentColor"
+          />
         </svg>
       </app-button>
     </form>
@@ -43,8 +38,8 @@
     </div>
     <form class="w-full flex flex-row items-center gap-2">
       <app-file-input
-        (onInputChange)="sendFile($event)"
-        (onValidationChange)="updateFileValidation($event)"
+        (inputChange)="sendFile($event)"
+        (validationChange)="updateFileValidation($event)"
         [validation]="fileInputValidation"
         [placeholder]="filePlaceholder"
         name="fileToUpload"
@@ -57,4 +52,3 @@
     </form>
   </div>
 </app-modal>
-

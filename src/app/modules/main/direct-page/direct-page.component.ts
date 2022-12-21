@@ -1,26 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { IdentityService } from 'src/app/core/services/identity.service';
-import { ILookupIdentity, ILookupIdentityData } from 'src/app/models/identity.model';
+import { Component } from '@angular/core'
+import { IdentityService } from 'src/app/core/services/identity.service'
+import { ILookupIdentity, ILookupIdentityData } from 'src/app/models/identity.model'
 
 @Component({
   selector: 'app-direct-page',
   templateUrl: './direct-page.component.html',
   styleUrls: ['./direct-page.component.css']
 })
-export class DirectPageComponent implements OnInit {
+export class DirectPageComponent {
+  private _matchedIdentity = ''
 
-  private _matchedIdentity: string = ''
-
-  get matchedIdentity (): string {
+  get matchedIdentity(): string {
     return this._matchedIdentity
   }
 
-  constructor (private identityService: IdentityService) { }
+  constructor(private identityService: IdentityService) {}
 
-  ngOnInit (): void {
-  }
-
-  searchIdentity (searchInput: string): void {
+  searchIdentity(searchInput: string): void {
     if (!searchInput) {
       this._matchedIdentity = ''
       return

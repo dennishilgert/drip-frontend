@@ -1,0 +1,5 @@
+# Ignored artifacts:
+node_modules
+build
+.angular
+.vscode

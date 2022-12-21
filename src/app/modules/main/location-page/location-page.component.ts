@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { IdentityService } from 'src/app/core/services/identity.service';
-import { NearbyService } from 'src/app/core/services/nearby.service';
-import { SocketEvent, SocketService } from 'src/app/core/services/socket.service';
-import { ToastService, ToastType } from 'src/app/core/services/toast.service';
-import { IUpdateIdentityLocationData } from 'src/app/models/identity.model';
-import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
+import { Component, OnInit } from '@angular/core'
+import { IdentityService } from 'src/app/core/services/identity.service'
+import { NearbyService } from 'src/app/core/services/nearby.service'
+import { SocketEvent, SocketService } from 'src/app/core/services/socket.service'
+import { ToastService, ToastType } from 'src/app/core/services/toast.service'
+import { IUpdateIdentityLocationData } from 'src/app/models/identity.model'
+import { INearbyIdentity } from 'src/app/models/nearby-identity.model'
 
 @Component({
   selector: 'app-location-page',
@@ -12,47 +12,45 @@ import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
   styleUrls: ['./location-page.component.css']
 })
 export class LocationPageComponent implements OnInit {
+  private _loading = true
+  private _geolocationAccess = false
 
-  private _loading: boolean = true
-  private _geolocationAccess: boolean = false
-
-  get loading (): boolean {
+  get loading(): boolean {
     return this._loading
   }
 
-  get hasGeolocationAccess (): boolean {
+  get hasGeolocationAccess(): boolean {
     return this._geolocationAccess
   }
 
-  get nearbyIdentities (): Array<INearbyIdentity> {
+  get nearbyIdentities(): Array<INearbyIdentity> {
     return this.nearbyService.nearbyGeolocationIdentities
   }
 
-  get nearbyExisting (): boolean {
+  get nearbyExisting(): boolean {
     return this.nearbyService.nearbyGeolocationIdentities.length > 0
   }
 
-  constructor (
+  constructor(
     private identityService: IdentityService,
     private nearbyService: NearbyService,
     private socketService: SocketService,
     private toastService: ToastService
   ) {
-    navigator.permissions.query({ name: 'geolocation' })
-      .then((permissionStatus: PermissionStatus) => {
-        permissionStatus.onchange = () => {
-          this._geolocationAccess = permissionStatus.state === 'granted'
-          this.initGeolocation()
-        }
+    navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus: PermissionStatus) => {
+      permissionStatus.onchange = () => {
         this._geolocationAccess = permissionStatus.state === 'granted'
-      })
+        this.initGeolocation()
+      }
+      this._geolocationAccess = permissionStatus.state === 'granted'
+    })
   }
 
   ngOnInit(): void {
     this.initGeolocation()
   }
 
-  initGeolocation (): void {
+  initGeolocation(): void {
     if (!this.identityService.isGeolocationSet) {
       console.log('Identity geolocation updating ...')
 
@@ -64,13 +62,12 @@ export class LocationPageComponent implements OnInit {
               latitude: position.coords.latitude
             }
           }
-          this.identityService.updateLocation(input)
-            .then(() => {
-              this.identityService.geolocation = true
+          this.identityService.updateLocation(input).then(() => {
+            this.identityService.geolocation = true
 
-              this.socketService.emitEvent(SocketEvent.UPDATED_GEOLOCATION)
-              this.updateNearbyIdentities()
-            })
+            this.socketService.emitEvent(SocketEvent.UPDATED_GEOLOCATION)
+            this.updateNearbyIdentities()
+          })
         },
         (error: GeolocationPositionError) => {
           this.toastService.showToast({
@@ -87,11 +84,12 @@ export class LocationPageComponent implements OnInit {
     this.updateNearbyIdentities()
   }
 
-  updateNearbyIdentities (): void {
+  updateNearbyIdentities(): void {
     if (this.identityService.isGeolocationSet) {
       console.log('Nearby geolocation identities updating ...')
 
-      this.nearbyService.updateNearbyGeolocationIdentities()
+      this.nearbyService
+        .updateNearbyGeolocationIdentities()
         .then(() => {
           this._loading = false
         })
