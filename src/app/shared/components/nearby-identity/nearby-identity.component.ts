@@ -30,10 +30,9 @@ export class NearbyIdentityComponent {
   private _messageInputValidation: IInputValidation = {
     valid: true,
     message: '',
-    schema: Joi.string().max(256).required()
-      .messages({
-        'string.max': 'The message should not exceed the length of {#limit} characters'
-      })
+    schema: Joi.string().max(256).required().messages({
+      'string.max': 'The message should not exceed the length of {#limit} characters'
+    })
   }
 
   private _filePlaceholder = 'Browse file'
@@ -41,77 +40,76 @@ export class NearbyIdentityComponent {
   private _fileInputValidation: IInputValidation = {
     valid: true,
     message: '',
-    schema: Joi.string().min(3).max(128).required()
-      .messages({
-        'string.empty': 'A file is required',
-        'string.min': 'The filename must be at least {#limit} characters long',
-        'string.max': 'The filename should not exceed the length of {#limit} characters'
-      })
+    schema: Joi.string().min(3).max(128).required().messages({
+      'string.empty': 'A file is required',
+      'string.min': 'The filename must be at least {#limit} characters long',
+      'string.max': 'The filename should not exceed the length of {#limit} characters'
+    })
   }
 
-  get messageLoading (): boolean {
+  get messageLoading(): boolean {
     return this._messageLoading
   }
 
-  get messageInputValidation (): IInputValidation {
+  get messageInputValidation(): IInputValidation {
     return this._messageInputValidation
   }
 
-  get filePlaceholder (): string {
+  get filePlaceholder(): string {
     return this._filePlaceholder
   }
 
-  get fileLoading (): boolean {
+  get fileLoading(): boolean {
     return this._fileLoading
   }
 
-  get fileInputValidation (): IInputValidation {
+  get fileInputValidation(): IInputValidation {
     return this._fileInputValidation
   }
 
-  constructor (
+  constructor(
     private transmissionService: TransmissionService,
     private communicationService: CommunicationService,
     private toastService: ToastService
-  ) { }
+  ) {}
 
-  toggleOptionsModal (event: Event) {
+  toggleOptionsModal(event: Event) {
     event.preventDefault()
     this.optionsModalComponent.toggleModal(event)
   }
 
-  updateMessage (message: string) {
+  updateMessage(message: string) {
     this._message = message
   }
 
-  updateMessageValidation (validation: IInputValidation) {
+  updateMessageValidation(validation: IInputValidation) {
     this._messageInputValidation = validation
   }
 
-  updateFileValidation (validation: IInputValidation) {
+  updateFileValidation(validation: IInputValidation) {
     this._fileInputValidation = validation
   }
 
-  isValid (): boolean {
+  isValid(): boolean {
     return this._messageInputValidation.valid
   }
 
-  async validate () {
+  async validate() {
     this.textInputComponent.validate()
   }
 
-  resetTextInput () {
+  resetTextInput() {
     this._messageLoading = false
     this.textInputComponent.clearInput(new Event('click'))
   }
 
-  resetFileUpload (event: Event) {
-    (event.target as HTMLInputElement).value = ''
+  resetFileUpload(event: Event) {
+    ;(event.target as HTMLInputElement).value = ''
     this._fileLoading = false
     this._filePlaceholder = 'Browse file'
   }
 
-  async sendMessage (event: Event) {
+  async sendMessage(event: Event) {
     // disable the default form submit behaviour
     event.preventDefault()
 
@@ -123,7 +121,8 @@ export class NearbyIdentityComponent {
     }
     this._messageLoading = true
 
-    this.transmissionService.transmitMessage(this.name, this._message)
+    this.transmissionService
+      .transmitMessage(this.name, this._message)
       .then((transmissionConfirmation: ITransmissionConfirmation) => {
         const communicationRequest: ICommunicationRequest = {
           requestUuid: transmissionConfirmation.requestUuid,
@@ -152,10 +151,10 @@ export class NearbyIdentityComponent {
       })
   }
 
-  async sendFile (event: Event) {
+  async sendFile(event: Event) {
     // disable the default form submit behaviour
     event.preventDefault()
-    
+
     const file: File = ((event.target as HTMLInputElement).files as FileList)[0]
     this._filePlaceholder = file.name
     this._fileLoading = true
@@ -164,7 +163,8 @@ export class NearbyIdentityComponent {
     formData.append('toName', this.name)
     formData.append('fileToTransmit', file)
 
-    this.transmissionService.transmitFile(this.name, formData)
+    this.transmissionService
+      .transmitFile(this.name, formData)
       .then((transmissionConfirmation: ITransmissionConfirmation) => {
         const communicationRequest: ICommunicationRequest = {
           requestUuid: transmissionConfirmation.requestUuid,

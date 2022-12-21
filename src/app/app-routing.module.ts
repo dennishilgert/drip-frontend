@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router'
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./modules/main/main.module').then(m => m.MainModule)
+    loadChildren: () => import('./modules/main/main.module').then((m) => m.MainModule)
   },
   {
     path: '**',
@@ -16,5 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

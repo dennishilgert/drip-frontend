@@ -9,7 +9,7 @@
     >
     </app-search-input>
   </div>
-  <div *ngIf="matchedIdentity else showNotFound">
+  <div *ngIf="matchedIdentity; else showNotFound">
     <app-nearby-identity [name]="matchedIdentity" distance="Direct"></app-nearby-identity>
   </div>
   <ng-template #showNotFound>

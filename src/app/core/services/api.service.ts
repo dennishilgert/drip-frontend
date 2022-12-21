@@ -17,18 +17,16 @@ export interface HttpRequestOptions {
   providedIn: 'root'
 })
 export class ApiService {
-
   readonly baseUrl: string = environment.api.baseUrl
 
-  constructor (private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  doGetRequest<T> (url: string, options: HttpRequestOptions): Promise<T> {
+  doGetRequest<T>(url: string, options: HttpRequestOptions): Promise<T> {
     const request: Observable<object> = this.http.get(this.baseUrl + url, options)
     return firstValueFrom(request) as Promise<T>
   }
 
-  doPostRequest<T> (url: string, body: object | FormData, headers?: HttpHeaders, params?: HttpParams): Promise<T> {
+  doPostRequest<T>(url: string, body: object | FormData, headers?: HttpHeaders, params?: HttpParams): Promise<T> {
     const request: Observable<object> = this.http.post(this.baseUrl + url, body, {
       params,
       headers,
@@ -37,7 +35,7 @@ export class ApiService {
     return firstValueFrom(request) as Promise<T>
   }
 
-  doPatchRequest<T> (url: string, body: object | FormData, headers?: HttpHeaders, params?: HttpParams): Promise<T> {
+  doPatchRequest<T>(url: string, body: object | FormData, headers?: HttpHeaders, params?: HttpParams): Promise<T> {
     const request: Observable<object> = this.http.patch(this.baseUrl + url, body, {
       params,
       headers,
@@ -46,7 +44,7 @@ export class ApiService {
     return firstValueFrom(request) as Promise<T>
   }
 
-  doDeleteRequest (url: string, body: object, headers?: HttpHeaders, params?: HttpParams): Promise<object> {
+  doDeleteRequest(url: string, body: object, headers?: HttpHeaders, params?: HttpParams): Promise<object> {
     const request: Observable<object> = this.http.delete(this.baseUrl + url, {
       params,
       body,

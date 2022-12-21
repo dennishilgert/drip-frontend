@@ -24,19 +24,19 @@ export class InputComponent implements OnInit {
   initialInputType = 'text'
   visible = false
 
-  get isValid (): boolean {
+  get isValid(): boolean {
     return this.validation.valid
   }
 
-  get isVisible (): boolean {
+  get isVisible(): boolean {
     return this.visible
   }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.initialInputType = this.inputType
   }
 
-  validate (): void {
+  validate(): void {
     // return if the value hasn't changed since the last validation
     if (this.previousValue && this.previousValue === this.value) {
       return
@@ -62,13 +62,13 @@ export class InputComponent implements OnInit {
     this.previousValue = this.value || ''
   }
 
-  clearInput (event: Event): void {
+  clearInput(event: Event): void {
     event.preventDefault()
     this.value = ''
     this.inputChange.emit(this.value)
   }
 
-  changeInputVisibility (event: Event): void {
+  changeInputVisibility(event: Event): void {
     event.preventDefault()
     this.visible = !this.visible
     if (this.visible) {

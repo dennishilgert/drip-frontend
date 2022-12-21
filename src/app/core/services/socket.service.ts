@@ -36,10 +36,9 @@ export class SocketRequestTimeoutError extends Error {}
   providedIn: 'root'
 })
 export class SocketService {
-
   private readonly socket: Socket
 
-  constructor (
+  constructor(
     private stateService: StateService,
     private nearbyService: NearbyService,
     private toastService: ToastService,
@@ -50,12 +49,12 @@ export class SocketService {
     })
   }
 
-  async init (identity: IIdentity) {
+  async init(identity: IIdentity) {
     this.socket.connect()
 
     this.socket.on(SocketEvent.CONNECT, () => {
       console.log('Socket connected')
-      
+
       this.stateService.socketReady = true
       this.emitEvent(SocketEvent.IDENTIFY, identity.uuid)
     })
@@ -97,7 +96,7 @@ export class SocketService {
     })
   }
 
-  emitEvent (event: string, data?: string): void {
+  emitEvent(event: string, data?: string): void {
     if (!this.socket.connected) {
       this.toastService.showToast({
         title: 'Failed to emit event - socket not connected',
@@ -110,7 +109,7 @@ export class SocketService {
     this.socket.emit(event, data)
   }
 
-  sendResponse (requestUuid: string, data?: any): void {
+  sendResponse(requestUuid: string, data?: any): void {
     const socketResponse: ISocketResponse = {
       requestUuid,
       ...data
@@ -118,15 +117,15 @@ export class SocketService {
     this.emitEvent(SocketEvent.RESPONSE, JSON.stringify(socketResponse))
   }
 
-  injectListener (event: string, listener: (...args: any[]) => void): void {
+  injectListener(event: string, listener: (...args: any[]) => void): void {
     this.socket.on(event, listener)
   }
 
-  removeListener (event: string, listener: (...args: any[]) => void): void {
+  removeListener(event: string, listener: (...args: any[]) => void): void {
     this.socket.removeListener(event, listener)
   }
 
-  private showRequestPopup (socketRequest: ISocketRequest): void {
+  private showRequestPopup(socketRequest: ISocketRequest): void {
     switch (socketRequest.requestType) {
       case RequestType.MESSAGE_TRANSMISSION: {
         const transmissionRequest: ITransmissionRequest = socketRequest as ITransmissionRequest

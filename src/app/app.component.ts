@@ -10,21 +10,19 @@ import { IIdentity } from './models/identity.model'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
-  get ready (): boolean {
+  get ready(): boolean {
     return this.stateService.isReady
   }
 
-  constructor (
+  constructor(
     private stateService: StateService,
     private identityService: IdentityService,
     private socketService: SocketService
-  ) { }
+  ) {}
 
-  ngOnInit (): void {
-    this.identityService.init()
-      .then((identity: IIdentity) => {
-        this.socketService.init(identity)
-      })
+  ngOnInit(): void {
+    this.identityService.init().then((identity: IIdentity) => {
+      this.socketService.init(identity)
+    })
   }
 }

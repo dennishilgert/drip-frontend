@@ -16,7 +16,7 @@ export class RadioButtonComponent {
   @Input() disabled = false
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>()
 
-  onSelectionChange (value: string) {
+  onSelectionChange(value: string) {
     this.selectionChange.emit(value)
   }
 }

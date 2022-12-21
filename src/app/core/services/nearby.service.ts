@@ -9,7 +9,6 @@ import { ToastService, ToastType } from './toast.service'
   providedIn: 'root'
 })
 export class NearbyService {
-
   public nearbyIpIdentities: Array<INearbyIdentity> = []
   public nearbyGeolocationIdentities: Array<INearbyIdentity> = []
 
@@ -17,11 +16,11 @@ export class NearbyService {
     private apiService: ApiService,
     private identityService: IdentityService,
     private toastService: ToastService
-  ) { }
+  ) {}
 
-  async updateNearbyIpIdentities (): Promise<INearbyIdentityList> {
+  async updateNearbyIpIdentities(): Promise<INearbyIdentityList> {
     const requestPromise: Promise<INearbyIdentityList> = this.apiService.doGetRequest<INearbyIdentityList>('/nearby', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.identityService.getIdentityUuid}` }),
+      headers: new HttpHeaders({ Authorization: `Bearer ${this.identityService.getIdentityUuid}` }),
       responseType: 'json' as 'arraybuffer'
     })
     requestPromise
@@ -40,14 +39,17 @@ export class NearbyService {
     return requestPromise
   }
 
-  async updateNearbyGeolocationIdentities (): Promise<INearbyIdentityList> {
+  async updateNearbyGeolocationIdentities(): Promise<INearbyIdentityList> {
     if (!this.identityService.isGeolocationSet) {
       return { nearbyIdentities: [] }
     }
-    const requestPromise: Promise<INearbyIdentityList> = this.apiService.doGetRequest<INearbyIdentityList>('/nearby/geolocation', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.identityService.getIdentityUuid}` }),
-      responseType: 'json' as 'arraybuffer'
-    })
+    const requestPromise: Promise<INearbyIdentityList> = this.apiService.doGetRequest<INearbyIdentityList>(
+      '/nearby/geolocation',
+      {
+        headers: new HttpHeaders({ Authorization: `Bearer ${this.identityService.getIdentityUuid}` }),
+        responseType: 'json' as 'arraybuffer'
+      }
+    )
     requestPromise
       .then((nearbyIdentityList: INearbyIdentityList) => {
         this.nearbyGeolocationIdentities = nearbyIdentityList.nearbyIdentities

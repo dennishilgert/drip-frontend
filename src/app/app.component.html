@@ -3,7 +3,7 @@
   <app-popup></app-popup>
   <app-header></app-header>
   <div class="w-full h-full flex flex-1 flex-col justify-center items-center p-6">
-    <div *ngIf="ready else showInitializing">
+    <div *ngIf="ready; else showInitializing">
       <router-outlet></router-outlet>
     </div>
     <ng-template #showInitializing>

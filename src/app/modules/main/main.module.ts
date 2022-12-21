@@ -5,16 +5,8 @@ import { LocationPageComponent } from './location-page/location-page.component'
 import { DirectPageComponent } from './direct-page/direct-page.component'
 import { IpPageComponent } from './ip-page/ip-page.component'
 
-
 @NgModule({
-  declarations: [
-    IpPageComponent,
-    LocationPageComponent,
-    DirectPageComponent
-  ],
-  imports: [
-    SharedModule,
-    MainRoutingModule
-  ]
+  declarations: [IpPageComponent, LocationPageComponent, DirectPageComponent],
+  imports: [SharedModule, MainRoutingModule]
 })
-export class MainModule { }
+export class MainModule {}

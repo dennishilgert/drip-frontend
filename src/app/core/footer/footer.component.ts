@@ -7,10 +7,9 @@ import { IdentityService } from '../services/identity.service'
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-
-  get name (): string {
+  get name(): string {
     return this.identityService.getIdentityName
   }
 
-  constructor (private identityService: IdentityService) { }
+  constructor(private identityService: IdentityService) {}
 }

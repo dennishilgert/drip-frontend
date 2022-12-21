@@ -16,18 +16,13 @@ export class SearchInputComponent implements OnInit {
 
   searchInput: BehaviorSubject<string> = new BehaviorSubject<string>('')
 
-  ngOnInit (): void {
-    this.searchInput
-      .pipe(
-        skip(1),
-        debounceTime(500)
-      )
-      .subscribe((value: string) => {
-        this.searchChange.emit(value)
-      })
+  ngOnInit(): void {
+    this.searchInput.pipe(skip(1), debounceTime(500)).subscribe((value: string) => {
+      this.searchChange.emit(value)
+    })
   }
 
-  clearInput (event: Event): void {
+  clearInput(event: Event): void {
     event.preventDefault()
     this.searchInput.next('')
   }

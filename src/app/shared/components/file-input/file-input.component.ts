@@ -22,11 +22,11 @@ export class FileInputComponent {
 
   previousValue = ''
 
-  get isValid (): boolean {
+  get isValid(): boolean {
     return this.validation.valid
   }
 
-  validate (): void {
+  validate(): void {
     // return if the value hasn't changed since the last validation
     if (this.previousValue && this.previousValue === this.value) {
       return
@@ -57,7 +57,7 @@ export class FileInputComponent {
     this.updateValidation(true, '')
   }
 
-  private updateValidation (valid: boolean, message: string): void {
+  private updateValidation(valid: boolean, message: string): void {
     // emit the validation updaten event to update the validation object in the parent as well
     // this will display the validation result to the user
     this.validation = { valid: valid, message: message, schema: this.validation.schema }
@@ -65,11 +65,11 @@ export class FileInputComponent {
     this.previousValue = this.value || ''
   }
 
-  reset (): void {
+  reset(): void {
     this.value = ''
   }
 
-  onInputChange (event: Event): void {
+  onInputChange(event: Event): void {
     event.preventDefault()
 
     this.validate()

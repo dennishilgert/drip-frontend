@@ -28,11 +28,7 @@ import { SearchInputComponent } from './components/search-input/search-input.com
     FileInputComponent,
     SearchInputComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule
-  ],
+  imports: [CommonModule, FormsModule, RouterModule],
   exports: [
     CommonModule,
     FormsModule,
@@ -49,5 +45,4 @@ import { SearchInputComponent } from './components/search-input/search-input.com
     NearbyIdentityComponent
   ]
 })
-export class SharedModule {
-}
+export class SharedModule {}

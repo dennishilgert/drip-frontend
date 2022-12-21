@@ -20,11 +20,11 @@ export class ModalComponent {
   @Output() leftButton: EventEmitter<Event> = new EventEmitter<Event>()
   @Output() rightButton: EventEmitter<Event> = new EventEmitter<Event>()
 
-  get state (): ModalState {
+  get state(): ModalState {
     return this._state
   }
 
-  toggleModal (event: Event) {
+  toggleModal(event: Event) {
     event.preventDefault()
 
     this._state = this._state === ModalState.HIDDEN ? ModalState.SHOWN : ModalState.HIDDEN

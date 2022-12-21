@@ -7,10 +7,9 @@ import { ToastService } from 'src/app/core/services/toast.service'
   styleUrls: ['./toast.component.css']
 })
 export class ToastComponent {
+  constructor(public toastService: ToastService) {}
 
-  constructor (public toastService: ToastService) { }
-
-  dismiss (id: string): void {
+  dismiss(id: string): void {
     this.toastService.dismissToast(id)
   }
 }

@@ -46,12 +46,12 @@ export enum MimeType {
   TAR = 'application/x-tar'
 }
 
-export function isSupported (mimeType: string): boolean {
+export function isSupported(mimeType: string): boolean {
   const mime: MimeType = getByValue(mimeType)
   if (!mime) return false
   return true
 }
 
-export function getByValue (mimeType: string): MimeType {
+export function getByValue(mimeType: string): MimeType {
   return Object.keys(MimeType)[Object.values(MimeType).indexOf(mimeType as MimeType)] as MimeType
 }

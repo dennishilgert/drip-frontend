@@ -11,22 +11,22 @@ import { TransmissionService } from '../services/transmission.service'
 export class HeaderComponent {
   @ViewChild('inboxModal') inboxModalComponent!: ModalComponent
 
-  get inbox (): ICombinedTransmission[] {
+  get inbox(): ICombinedTransmission[] {
     return this.transmissionService.inbox
   }
 
-  get unreadTransmissions (): boolean {
-    return (this.inboxModalComponent?.state === ModalState.HIDDEN) && this.transmissionService.unreadTransmissions
+  get unreadTransmissions(): boolean {
+    return this.inboxModalComponent?.state === ModalState.HIDDEN && this.transmissionService.unreadTransmissions
   }
 
-  constructor (private transmissionService: TransmissionService) { }
+  constructor(private transmissionService: TransmissionService) {}
 
-  clearInbox (event: Event): void {
+  clearInbox(event: Event): void {
     event.preventDefault()
     this.transmissionService.clearInbox()
   }
 
-  toggleInboxModal (event: Event): void {
+  toggleInboxModal(event: Event): void {
     event.preventDefault()
     this.inboxModalComponent.toggleModal(event)
 

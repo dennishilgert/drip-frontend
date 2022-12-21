@@ -1,4 +1,4 @@
-<div *ngIf="!loading else showLoading">
+<div *ngIf="!loading; else showLoading">
   <div *ngIf="!nearbyExisting" class="text-light">No nearby identities</div>
   <div class="w-full flex flex-row flex-wrap justify-center gap-12">
     <div *ngFor="let nearbyIdentity of nearbyIdentities">

@@ -8,25 +8,24 @@ import { IPopup } from 'src/app/models/popup.model'
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent {
-
-  get currentPopup (): IPopup | undefined {
+  get currentPopup(): IPopup | undefined {
     return this.popupService.currentPopup
   }
 
-  constructor (public popupService: PopupService) { }
+  constructor(public popupService: PopupService) {}
 
-  dismissPopup () {
+  dismissPopup() {
     this.popupService.dismissPopup()
   }
 
-  onLeftButtonClick (event: Event): void {
+  onLeftButtonClick(event: Event): void {
     event.preventDefault()
     if (!this.currentPopup) return
     if (this.currentPopup.leftButtonCallback) this.currentPopup.leftButtonCallback()
     this.dismissPopup()
   }
 
-  onRightButtonClick (event: Event): void {
+  onRightButtonClick(event: Event): void {
     event.preventDefault()
     if (!this.currentPopup) return
     if (this.currentPopup.rightButtonCallback) this.currentPopup.rightButtonCallback()

@@ -8,16 +8,15 @@ import { ILookupIdentity, ILookupIdentityData } from 'src/app/models/identity.mo
   styleUrls: ['./direct-page.component.css']
 })
 export class DirectPageComponent {
-
   private _matchedIdentity = ''
 
-  get matchedIdentity (): string {
+  get matchedIdentity(): string {
     return this._matchedIdentity
   }
 
-  constructor (private identityService: IdentityService) { }
+  constructor(private identityService: IdentityService) {}
 
-  searchIdentity (searchInput: string): void {
+  searchIdentity(searchInput: string): void {
     if (!searchInput) {
       this._matchedIdentity = ''
       return

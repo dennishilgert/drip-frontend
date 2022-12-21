@@ -4,27 +4,26 @@ import { Injectable } from '@angular/core'
   providedIn: 'root'
 })
 export class StateService {
-
   private _identityReady = false
   private _socketReady = false
 
-  get isReady (): boolean {
+  get isReady(): boolean {
     return this._identityReady && this._socketReady
   }
 
-  get isIdentityReady (): boolean {
+  get isIdentityReady(): boolean {
     return this._identityReady
   }
 
-  get isSocketReady (): boolean {
+  get isSocketReady(): boolean {
     return this._socketReady
   }
 
-  set identityReady (isIdentityReady: boolean) {
+  set identityReady(isIdentityReady: boolean) {
     this._identityReady = isIdentityReady
   }
 
-  set socketReady (isSocketReady: boolean) {
+  set socketReady(isSocketReady: boolean) {
     this._socketReady = isSocketReady
   }
 }
