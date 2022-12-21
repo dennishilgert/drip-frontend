@@ -5,9 +5,9 @@ import { IpPageComponent } from './ip-page/ip-page.component'
 import { LocationPageComponent } from './location-page/location-page.component'
 
 const routes: Routes = [
-  { path: '', component: IpPageComponent },
-  { path: 'location', component: LocationPageComponent },
-  { path: 'direct', component: DirectPageComponent }
+  { path: '', component: IpPageComponent, title: 'Drip - Nearby IP-Address' },
+  { path: 'location', component: LocationPageComponent, title: 'Drip - Nearby Geolocation' },
+  { path: 'direct', component: DirectPageComponent, title: 'Drip - Direct' }
 ]
 
 @NgModule({
