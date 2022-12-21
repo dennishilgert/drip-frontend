@@ -46,9 +46,9 @@
               'text-basic-300': !transmission.message
             }"
           >
-            {{ transmission.message ? transmission.message as string : transmission.fileOriginalName as string }}
+            {{ transmission.message ? transmission.message! : transmission.fileOriginalName! }}
           </div>
-          <div class="text-sm text-basic">{{ transmission.receivedAt?.toLocaleTimeString() }}</div>
+          <div class="text-sm text-basic">{{ transmission.receivedAt!.toLocaleTimeString() }}</div>
         </div>
       </div>
     </div>
