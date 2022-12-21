@@ -1,4 +1,4 @@
-import { RequestType } from "../core/services/socket.service"
+import { RequestType } from '../core/services/socket.service'
 
 export interface ISocketRequest {
   requestType: RequestType

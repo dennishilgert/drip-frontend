@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { IdentityService } from 'src/app/core/services/identity.service';
-import { NearbyService } from 'src/app/core/services/nearby.service';
-import { SocketEvent, SocketService } from 'src/app/core/services/socket.service';
-import { ToastService, ToastType } from 'src/app/core/services/toast.service';
-import { IUpdateIdentityLocationData } from 'src/app/models/identity.model';
-import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
+import { Component, OnInit } from '@angular/core'
+import { IdentityService } from 'src/app/core/services/identity.service'
+import { NearbyService } from 'src/app/core/services/nearby.service'
+import { SocketEvent, SocketService } from 'src/app/core/services/socket.service'
+import { ToastService, ToastType } from 'src/app/core/services/toast.service'
+import { IUpdateIdentityLocationData } from 'src/app/models/identity.model'
+import { INearbyIdentity } from 'src/app/models/nearby-identity.model'
 
 @Component({
   selector: 'app-location-page',
@@ -13,8 +13,8 @@ import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
 })
 export class LocationPageComponent implements OnInit {
 
-  private _loading: boolean = true
-  private _geolocationAccess: boolean = false
+  private _loading = true
+  private _geolocationAccess = false
 
   get loading (): boolean {
     return this._loading

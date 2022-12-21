@@ -1,4 +1,4 @@
-import { ToastType } from "../core/services/toast.service"
+import { ToastType } from '../core/services/toast.service'
 
 export interface IToast {
   id?: string

@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { io, Socket } from 'socket.io-client';
-import { IIdentity } from 'src/app/models/identity.model';
-import { IPopup } from 'src/app/models/popup.model';
-import { ITransmissionRequest, ITransmissionResponse } from 'src/app/models/transmission.model';
-import { ISocketRequest, ISocketResponse } from 'src/app/models/socket.model';
-import { NearbyService } from './nearby.service';
-import { PopupBuilder, PopupService } from './popup.service';
-import { StateService } from './state.service';
-import { ToastService, ToastType } from './toast.service';
+import { Injectable } from '@angular/core'
+import { io, Socket } from 'socket.io-client'
+import { IIdentity } from 'src/app/models/identity.model'
+import { IPopup } from 'src/app/models/popup.model'
+import { ITransmissionRequest, ITransmissionResponse } from 'src/app/models/transmission.model'
+import { ISocketRequest, ISocketResponse } from 'src/app/models/socket.model'
+import { NearbyService } from './nearby.service'
+import { PopupBuilder, PopupService } from './popup.service'
+import { StateService } from './state.service'
+import { ToastService, ToastType } from './toast.service'
 
 export enum SocketEvent {
   CONNECT = 'connect',
@@ -148,7 +148,7 @@ export class SocketService {
         const transmissionRequest: ITransmissionRequest = socketRequest as ITransmissionRequest
         const popup: IPopup = new PopupBuilder()
           .title(`${transmissionRequest.fromName} would like to share a file`)
-          .content(transmissionRequest.fileOriginalName!)
+          .content(transmissionRequest.fileOriginalName as string)
           .request(socketRequest)
           .leftButton(() => {
             this.sendResponse(socketRequest.requestUuid, { accepted: false } as ITransmissionResponse)

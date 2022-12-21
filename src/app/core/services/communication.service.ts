@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { ICommunicationRequest } from 'src/app/models/communication.model';
-import { ISocketResponse } from 'src/app/models/socket.model';
-import { SocketEvent, SocketRequestTimeoutError, SocketService } from './socket.service';
+import { Injectable } from '@angular/core'
+import { ICommunicationRequest } from 'src/app/models/communication.model'
+import { ISocketResponse } from 'src/app/models/socket.model'
+import { SocketEvent, SocketRequestTimeoutError, SocketService } from './socket.service'
 
 export class CommunicationRequest {
 

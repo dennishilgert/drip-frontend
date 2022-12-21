@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { uniqueId } from '../../helpers/uuidHelper'
 
 @Component({
@@ -6,22 +6,17 @@ import { uniqueId } from '../../helpers/uuidHelper'
   templateUrl: './radio-button.component.html',
   styleUrls: ['./radio-button.component.css']
 })
-export class RadioButtonComponent implements OnInit {
+export class RadioButtonComponent {
   id: string = uniqueId()
-  @Input() name: string = ''
-  @Input() value: string = ''
-  @Input() width: string = ''
-  @Input() height: string = ''
-  @Input() checked: boolean = false
-  @Input() disabled: boolean = false
-  @Output() onChangeEvent: EventEmitter<string> = new EventEmitter<string>()
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  @Input() name = ''
+  @Input() value = ''
+  @Input() width = ''
+  @Input() height = ''
+  @Input() checked = false
+  @Input() disabled = false
+  @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>()
 
   onSelectionChange (value: string) {
-    this.onChangeEvent.emit(value)
+    this.selectionChange.emit(value)
   }
 }

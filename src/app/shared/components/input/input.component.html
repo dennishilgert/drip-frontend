@@ -2,7 +2,7 @@
   <input
     [id]="id"
     [(ngModel)]="value"
-    (input)="onInputChange.emit(value)"
+    (input)="inputChange.emit(value)"
     (blur)="validate()"
     [type]="inputType"
     [placeholder]="placeholder"

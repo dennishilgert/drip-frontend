@@ -32,7 +32,7 @@
       <div *ngIf="inbox.length < 1" class="text-white">Your inbox is empty</div>
       <div *ngFor="let transmission of inbox" class="w-full">
         <div class="w-full flex flex-col gap-2 rounded-2xl p-4 bg-dark-300">
-          <div class="text-xs font-bold text-brand">{{ escapeHtml(transmission.fromName) }}</div>
+          <div class="text-xs font-bold text-brand">{{ transmission.fromName }}</div>
           <div
             class="break-words"
             [ngClass]="{
@@ -40,7 +40,7 @@
               'text-basic-300': !transmission.message
             }"
           >
-            {{ transmission.message ? escapeHtml(transmission.message!) : escapeHtml(transmission.fileOriginalName!) }}
+            {{ transmission.message ? transmission.message as string : transmission.fileOriginalName as string }}
           </div>
           <div class="text-sm text-basic">{{ transmission.receivedAt?.toLocaleTimeString() }}</div>
         </div>

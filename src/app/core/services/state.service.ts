@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateService {
 
-  private _identityReady: boolean = false
-  private _socketReady: boolean = false
+  private _identityReady = false
+  private _socketReady = false
 
   get isReady (): boolean {
     return this._identityReady && this._socketReady
@@ -27,6 +27,4 @@ export class StateService {
   set socketReady (isSocketReady: boolean) {
     this._socketReady = isSocketReady
   }
-
-  constructor() { }
 }

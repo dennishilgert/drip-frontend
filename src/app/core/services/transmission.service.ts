@@ -1,23 +1,23 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ICombinedTransmission, IFileTransmission, IMessageTransmission, ITransmission, ITransmissionConfirmation } from 'src/app/models/transmission.model';
-import { ApiService } from './api.service';
-import { IdentityService } from './identity.service';
-import { ToastService, ToastType } from './toast.service';
+import { HttpHeaders } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { ICombinedTransmission, IFileTransmission, IMessageTransmission, ITransmission, ITransmissionConfirmation } from 'src/app/models/transmission.model'
+import { ApiService } from './api.service'
+import { IdentityService } from './identity.service'
+import { ToastService, ToastType } from './toast.service'
 import { saveAs } from 'file-saver'
-import { SocketEvent, SocketService } from './socket.service';
+import { SocketEvent, SocketService } from './socket.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransmissionService {
   private _inbox: ICombinedTransmission[] = []
-  private _unreadTransmissions: boolean = false
+  private _unreadTransmissions = false
 
   get inbox (): ICombinedTransmission[] {
     return this._inbox.sort((a: ICombinedTransmission, b: ICombinedTransmission) => {
-      if (a.receivedAt! < b.receivedAt!) return 1 // b's timestamp is bigger
-      if (a.receivedAt! > b.receivedAt!) return -1 // a's timestamp is bigger
+      if ((a.receivedAt as Date) < (b.receivedAt as Date)) return 1 // b's timestamp is bigger
+      if ((a.receivedAt as Date) > (b.receivedAt as Date)) return -1 // a's timestamp is bigger
       return 0
     })
   }

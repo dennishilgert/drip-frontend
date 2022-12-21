@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { IToast } from 'src/app/models/toast.model';
-import { randomString } from 'src/app/shared/helpers/stringHelper';
+import { Injectable } from '@angular/core'
+import { IToast } from 'src/app/models/toast.model'
+import { randomString } from 'src/app/shared/helpers/stringHelper'
 
 export enum ToastType {
   INFO = 'info',
@@ -17,17 +17,15 @@ export class ToastService {
 
   get toasts (): Array<IToast> {
     return Array.from(this._toasts.values()).sort((a: IToast, b: IToast) => {
-      if (a.triggeredAt! < b.triggeredAt!) return 1 // b's timestamp is bigger
-      if (a.triggeredAt! > b.triggeredAt!) return -1 // a's timestamp is bigger
+      if ((a.triggeredAt as Date) < (b.triggeredAt as Date)) return 1 // b's timestamp is bigger
+      if ((a.triggeredAt as Date) > (b.triggeredAt as Date)) return -1 // a's timestamp is bigger
       return 0
     })
   }
 
-  constructor () { }
-
   async showToast (toast: IToast): Promise<void> {
     if (this._toasts.size >= 5) {
-      this._toasts.delete((this.toasts.pop() as IToast).id!)
+      this._toasts.delete((this.toasts.pop() as IToast).id as string)
     }
     toast.id = randomString(8)
     toast.triggeredAt = new Date()
@@ -37,7 +35,7 @@ export class ToastService {
     this.animateToast(toast.id)
 
     setTimeout(() => {
-      this.dismissToast(toast.id!)
+      this.dismissToast(toast.id as string)
     }, 8000)
   }
 
@@ -52,7 +50,7 @@ export class ToastService {
   }
 
   animateToast (id: string): void {
-    let animated: boolean = false
+    let animated = false
     let toastElement: HTMLElement | null = document.getElementById(id)
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {

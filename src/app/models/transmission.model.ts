@@ -1,4 +1,4 @@
-import { ISocketRequest, ISocketResponse } from "./socket.model"
+import { ISocketRequest, ISocketResponse } from './socket.model'
 
 export interface ITransmissionRequest extends ISocketRequest {
   fromName: string

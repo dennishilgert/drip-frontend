@@ -49,11 +49,11 @@
             'text-red-700': toast.type === 'error'
           }"
         >
-          {{ escapeHtml(toast.title) }}
+          {{ toast.title }}
         </div>
-        <div *ngIf="toast.content" class="text-basic">{{ escapeHtml(toast.content!) }}</div>
+        <div *ngIf="toast.content" class="text-basic">{{ toast.content }}</div>
       </div>
-      <button (click)="dismiss(toast.id!)" class="flex flex-row items-start text-basic">
+      <button (click)="dismiss(toast.id as string)" class="flex flex-row items-start text-basic">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

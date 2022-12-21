@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { IPopup } from 'src/app/models/popup.model';
-import { ISocketRequest } from 'src/app/models/socket.model';
-import { randomString } from 'src/app/shared/helpers/stringHelper';
-import { RequestType } from './socket.service';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { Injectable } from '@angular/core'
+import { IPopup } from 'src/app/models/popup.model'
+import { ISocketRequest } from 'src/app/models/socket.model'
+import { randomString } from 'src/app/shared/helpers/stringHelper'
+import { RequestType } from './socket.service'
 
 export class PopupBuilder {
-  private _title: string = 'No title'
-  private _content: string = 'No content'
+  private _title = 'No title'
+  private _content = 'No content'
   private _socketRequest: ISocketRequest = { requestType: RequestType.MESSAGE_TRANSMISSION, requestUuid: '' }
-  private _leftButtonCallback: Function = () => {}
-  private _rightButtonCallback: Function = () => {}
+  private _leftButtonCallback: () => void = () => {}
+  private _rightButtonCallback: () => void = () => {}
 
   title (title: string): PopupBuilder {
     this._title = title
@@ -26,12 +27,12 @@ export class PopupBuilder {
     return this
   }
 
-  leftButton (leftButtonCallback: Function): PopupBuilder {
+  leftButton (leftButtonCallback: () => void): PopupBuilder {
     this._leftButtonCallback = leftButtonCallback
     return this
   }
 
-  rightButton (rightButtonCallback: Function): PopupBuilder {
+  rightButton (rightButtonCallback: () => void): PopupBuilder {
     this._rightButtonCallback = rightButtonCallback
     return this
   }
@@ -57,8 +58,8 @@ export class PopupService {
 
   get popups (): Array<IPopup> {
     return this._popups.sort((a: IPopup, b: IPopup) => {
-      if (a.triggeredAt! < b.triggeredAt!) return 1 // b's timestamp is bigger
-      if (a.triggeredAt! > b.triggeredAt!) return -1 // a's timestamp is bigger
+      if ((a.triggeredAt as Date) < (b.triggeredAt as Date)) return 1 // b's timestamp is bigger
+      if ((a.triggeredAt as Date) > (b.triggeredAt as Date)) return -1 // a's timestamp is bigger
       return 0
     })
   }
@@ -78,7 +79,8 @@ export class PopupService {
   }
 
   async dismissPopup (): Promise<void> {
-    this.animatePopup(this._currentPopup!.id!)
+    if (!this._currentPopup) return
+    this.animatePopup(this._currentPopup.id as string)
     
     setTimeout(() => {
       this._currentPopup = undefined
@@ -104,12 +106,12 @@ export class PopupService {
       const popup: IPopup = this.popups.pop() as IPopup
       this._currentPopup = popup
 
-      this.animatePopup(popup.id!)
+      this.animatePopup(popup.id as string)
     }
   }
 
   animatePopup (id: string): void {
-    let animated: boolean = false
+    let animated = false
     let popupContainer: HTMLElement | null = document.getElementById('container-' + id)
     let popupBackground: HTMLElement | null = document.getElementById('background-' + id)
     let popup: HTMLElement | null = document.getElementById(id)

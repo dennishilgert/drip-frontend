@@ -2,16 +2,16 @@
   <div class="w-12 h-12 flex justify-center items-center rounded-full border-2 border-light-700">
     <div class="w-9 h-9 rounded-full bg-brand"></div>
   </div>
-  <div class="font-bold text-light">{{ escapeHtml(name) }}</div>
-  <div class="text-xs font-light text-light select-none">{{ escapeHtml(distance) }}</div>
+  <div class="font-bold text-light">{{ name }}</div>
+  <div class="text-xs font-light text-light select-none">{{ distance }}</div>
 </div>
 
 <app-modal [title]="name" rightButton="Done" (onRightButton)="toggleOptionsModal($event)" #optionsModal>
   <div class="w-full flex flex-col items-center gap-4 pb-12 text-light">
     <form (keydown.enter)="sendMessage($event)" class="w-full flex flex-row items-center gap-2">
       <app-input
-        (onInputChange)="updateMessage($event)"
-        (onValidationChange)="updateMessageValidation($event)"
+        (inputChange)="updateMessage($event)"
+        (validationChange)="updateMessageValidation($event)"
         [validation]="messageInputValidation"
         placeholder="Type message"
         name="message"
@@ -21,7 +21,7 @@
       >
       </app-input>
       <app-button
-        (onClick)="sendMessage($event)"
+        (buttonClick)="sendMessage($event)"
         [loading]="messageLoading"
       >
         <svg
@@ -43,8 +43,8 @@
     </div>
     <form class="w-full flex flex-row items-center gap-2">
       <app-file-input
-        (onInputChange)="sendFile($event)"
-        (onValidationChange)="updateFileValidation($event)"
+        (inputChange)="sendFile($event)"
+        (validationChange)="updateFileValidation($event)"
         [validation]="fileInputValidation"
         [placeholder]="filePlaceholder"
         name="fileToUpload"

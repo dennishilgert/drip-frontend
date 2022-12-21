@@ -1,9 +1,9 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { INearbyIdentity, INearbyIdentityList } from 'src/app/models/nearby-identity.model';
-import { ApiService } from './api.service';
-import { IdentityService } from './identity.service';
-import { ToastService, ToastType } from './toast.service';
+import { HttpHeaders } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { INearbyIdentity, INearbyIdentityList } from 'src/app/models/nearby-identity.model'
+import { ApiService } from './api.service'
+import { IdentityService } from './identity.service'
+import { ToastService, ToastType } from './toast.service'
 
 @Injectable({
   providedIn: 'root'

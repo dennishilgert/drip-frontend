@@ -4,5 +4,5 @@
  * @returns The file name of the path.
  */
 export function extractFileName (path: string): string {
-  return path.replace(/^.*[\\\/]/, '')
+  return path.replace(/^.*[\\/]/, '')
 }

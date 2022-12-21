@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NearbyService } from 'src/app/core/services/nearby.service';
-import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
+import { Component, OnInit } from '@angular/core'
+import { NearbyService } from 'src/app/core/services/nearby.service'
+import { INearbyIdentity } from 'src/app/models/nearby-identity.model'
 
 @Component({
   selector: 'app-ip-page',
@@ -9,7 +9,7 @@ import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
 })
 export class IpPageComponent implements OnInit {
 
-  private _loading: boolean = true
+  private _loading = true
 
   get loading (): boolean {
     return this._loading

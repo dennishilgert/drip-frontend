@@ -1,19 +1,18 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { IIdentity, ILookupIdentity, ILookupIdentityData, IUpdateIdentityLocationData } from 'src/app/models/identity.model';
-import { ApiService } from './api.service';
-import { SocketService } from './socket.service';
-import { StateService } from './state.service';
-import { ToastService, ToastType } from './toast.service';
+import { HttpHeaders } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { IIdentity, ILookupIdentity, ILookupIdentityData, IUpdateIdentityLocationData } from 'src/app/models/identity.model'
+import { ApiService } from './api.service'
+import { StateService } from './state.service'
+import { ToastService, ToastType } from './toast.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class IdentityService {
 
-  private _identityUuid: string = ''
-  private _identityName: string = 'Waiting ...'
-  private _identityLocationSet: boolean = false
+  private _identityUuid = ''
+  private _identityName = 'Waiting ...'
+  private _identityLocationSet = false
 
   get getIdentityUuid (): string {
     return this._identityUuid

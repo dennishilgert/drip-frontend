@@ -6,7 +6,7 @@
  * @param {boolean} [trimmed=false] - boolean = false
  * @returns A string value
  */
- export function asString (value: any, trimmed: boolean = false): string {
+ export function asString (value: any, trimmed = false): string {
   const str = value === undefined || value === null ? '' : String(value)
   return trimmed ? str.trim() : str
 }

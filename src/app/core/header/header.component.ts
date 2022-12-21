@@ -1,15 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ICombinedTransmission } from 'src/app/models/transmission.model';
-import { ModalComponent, ModalState } from 'src/app/shared/components/modal/modal.component';
-import { escapeHtml } from 'src/app/shared/helpers/safetyHelper';
-import { TransmissionService } from '../services/transmission.service';
+import { Component, ViewChild } from '@angular/core'
+import { ICombinedTransmission } from 'src/app/models/transmission.model'
+import { ModalComponent, ModalState } from 'src/app/shared/components/modal/modal.component'
+import { TransmissionService } from '../services/transmission.service'
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   @ViewChild('inboxModal') inboxModalComponent!: ModalComponent
 
   get inbox (): ICombinedTransmission[] {
@@ -21,13 +20,6 @@ export class HeaderComponent implements OnInit {
   }
 
   constructor (private transmissionService: TransmissionService) { }
-
-  ngOnInit (): void {
-  }
-
-  escapeHtml (input: string): string {
-    return escapeHtml(input)
-  }
 
   clearInbox (event: Event): void {
     event.preventDefault()

@@ -1,35 +1,29 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as Joi from 'joi';
-import { IInputValidation } from 'src/app/models/input-validation.model';
-import { extractFileName } from '../../helpers/fileHelper';
-import { randomString } from '../../helpers/stringHelper';
-import { isSupported } from '../../utils/mimeTypeUtil';
+import { Component, EventEmitter, Input, Output } from '@angular/core'
+import * as Joi from 'joi'
+import { IInputValidation } from 'src/app/models/input-validation.model'
+import { randomString } from '../../helpers/stringHelper'
+import { isSupported } from '../../utils/mimeTypeUtil'
 
 @Component({
   selector: 'app-file-input',
   templateUrl: './file-input.component.html',
   styleUrls: ['./file-input.component.css']
 })
-export class FileInputComponent implements OnInit {
+export class FileInputComponent {
   readonly id: string = randomString(8)
-  @Input() placeholder: string = ''
-  @Input() name: string = ''
-  @Input() value: string = ''
+  @Input() placeholder = ''
+  @Input() name = ''
+  @Input() value = ''
   @Input() validation: IInputValidation = { valid: true, message: '', schema: Joi.any() }
-  @Input() loading: boolean = false
-  @Input() disabled: boolean = false
-  @Output() onInputChange: EventEmitter<Event> = new EventEmitter<Event>()
-  @Output() onValidationChange: EventEmitter<IInputValidation> = new EventEmitter<IInputValidation>()
+  @Input() loading = false
+  @Input() disabled = false
+  @Output() inputChange: EventEmitter<Event> = new EventEmitter<Event>()
+  @Output() validationChange: EventEmitter<IInputValidation> = new EventEmitter<IInputValidation>()
 
-  previousValue: string = ''
+  previousValue = ''
 
   get isValid (): boolean {
     return this.validation.valid
-  }
-
-  constructor () { }
-
-  ngOnInit (): void {
   }
 
   validate (): void {
@@ -67,7 +61,7 @@ export class FileInputComponent implements OnInit {
     // emit the validation updaten event to update the validation object in the parent as well
     // this will display the validation result to the user
     this.validation = { valid: valid, message: message, schema: this.validation.schema }
-    this.onValidationChange.emit(this.validation)
+    this.validationChange.emit(this.validation)
     this.previousValue = this.value || ''
   }
 
@@ -75,7 +69,7 @@ export class FileInputComponent implements OnInit {
     this.value = ''
   }
 
-  inputChange (event: Event): void {
+  onInputChange (event: Event): void {
     event.preventDefault()
 
     this.validate()
@@ -85,6 +79,6 @@ export class FileInputComponent implements OnInit {
       return
     }
 
-    this.onInputChange.emit(event)
+    this.inputChange.emit(event)
   }
 }
