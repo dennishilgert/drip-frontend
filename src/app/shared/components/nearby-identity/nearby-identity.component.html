@@ -6,7 +6,7 @@
   <div class="text-xs font-light text-light select-none">{{ distance }}</div>
 </div>
 
-<app-modal [title]="name" rightButton="Done" (onRightButton)="toggleOptionsModal($event)" #optionsModal>
+<app-modal [title]="name" rightButtonLabel="Done" (rightButton)="toggleOptionsModal($event)" #optionsModal>
   <div class="w-full flex flex-col items-center gap-4 pb-12 text-light">
     <form (keydown.enter)="sendMessage($event)" class="w-full flex flex-row items-center gap-2">
       <app-input
