@@ -12,5 +12,6 @@
       "source.fixAll.eslint": true
     },
     "editor.formatOnSave": false
-  }
+  },
+  "docwriter.style": "Auto-detect"
 }
