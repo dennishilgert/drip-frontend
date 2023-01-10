@@ -1,1 +1,18 @@
-<div class="text-light">Direct</div>
+<div class="realtive w-full max-w-xs h-full flex flex-col items-center gap-12">
+  <div class="w-full flex flex-col items-center gap-4">
+    <div class="text-center text-xs text-basic-300">Type in the name of a identity to search for it</div>
+    <app-search-input
+      placeholder="Anonymous Blobfish"
+      name="identitySearch"
+      (searchChange)="searchIdentity($event)"
+      class="w-full"
+    >
+    </app-search-input>
+  </div>
+  <div *ngIf="matchedIdentity; else showNotFound">
+    <app-nearby-identity [name]="matchedIdentity" distance="Direct"></app-nearby-identity>
+  </div>
+  <ng-template #showNotFound>
+    <div class="text-light">No matching identity found</div>
+  </ng-template>
+</div>

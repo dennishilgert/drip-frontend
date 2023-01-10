@@ -7,10 +7,12 @@
     [checked]="checked ? 'checked' : ''"
     (change)="onSelectionChange(value)"
     class="hidden peer"
-  >
+  />
   <label
     [for]="id"
-    class="relative flex items-center justify-center px-2 py-0.5 rounded-full font-medium text-sm text-light cursor-pointer select-none transition-colors ease-in-out duration-200 bg-transparent peer-checked:bg-brand {{ width }} {{ height }}"
+    class="relative flex items-center justify-center px-2 py-0.5 rounded-full font-medium text-sm text-light cursor-pointer select-none transition-colors ease-in-out duration-200 bg-transparent peer-checked:bg-brand {{
+      width
+    }} {{ height }}"
     [ngClass]="{
       'cursor-not-allowed': disabled
     }"

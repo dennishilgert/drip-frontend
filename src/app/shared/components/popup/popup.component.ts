@@ -1,34 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { PopupService } from 'src/app/core/services/popup.service';
-import { IPopup } from 'src/app/models/popup.model';
+import { Component } from '@angular/core'
+import { PopupService } from 'src/app/core/services/popup.service'
+import { IPopup } from 'src/app/models/popup.model'
 
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.css']
 })
-export class PopupComponent implements OnInit {
-
-  get currentPopup (): IPopup | undefined {
+export class PopupComponent {
+  get currentPopup(): IPopup | undefined {
     return this.popupService.currentPopup
   }
 
-  constructor (public popupService: PopupService) { }
+  constructor(public popupService: PopupService) {}
 
-  ngOnInit(): void {
-  }
-
-  dismissPopup () {
+  dismissPopup() {
     this.popupService.dismissPopup()
   }
 
-  onLeftButtonClick (event: Event): void {
+  onLeftButtonClick(event: Event): void {
     event.preventDefault()
-    this.currentPopup!.leftButtonCallback!()
+    if (!this.currentPopup) return
+    if (this.currentPopup.leftButtonCallback) this.currentPopup.leftButtonCallback()
+    this.dismissPopup()
   }
 
-  onRightButtonClick (event: Event): void {
+  onRightButtonClick(event: Event): void {
     event.preventDefault()
-    this.currentPopup!.rightButtonCallback!()
+    if (!this.currentPopup) return
+    if (this.currentPopup.rightButtonCallback) this.currentPopup.rightButtonCallback()
+    this.dismissPopup()
   }
 }

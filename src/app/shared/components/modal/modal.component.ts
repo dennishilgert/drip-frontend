@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { randomString } from '../../helpers/stringHelper';
+import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { randomString } from '../../helpers/stringHelper'
 
 export enum ModalState {
   SHOWN = 'shown',
@@ -11,25 +11,20 @@ export enum ModalState {
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent {
   readonly id: string = randomString(8)
   private _state: ModalState = ModalState.HIDDEN
-  @Input() title: string = ''
-  @Input() leftButton: string = ''
-  @Input() rightButton: string = ''
-  @Output() onLeftButton: EventEmitter<Event> = new EventEmitter<Event>()
-  @Output() onRightButton: EventEmitter<Event> = new EventEmitter<Event>()
+  @Input() title = ''
+  @Input() leftButtonLabel = ''
+  @Input() rightButtonLabel = ''
+  @Output() leftButton: EventEmitter<Event> = new EventEmitter<Event>()
+  @Output() rightButton: EventEmitter<Event> = new EventEmitter<Event>()
 
-  get state (): ModalState {
+  get state(): ModalState {
     return this._state
   }
 
-  constructor() { }
-
-  ngOnInit(): void { 
-  }
-
-  toggleModal (event: Event) {
+  toggleModal(event: Event) {
     event.preventDefault()
 
     this._state = this._state === ModalState.HIDDEN ? ModalState.SHOWN : ModalState.HIDDEN
@@ -41,15 +36,5 @@ export class ModalComponent implements OnInit {
     modalBackground.classList.toggle('opacity-0')
     modalBackground.classList.toggle('opacity-50')
     modal.classList.toggle('translate-y-full')
-  }
-
-  onLeftButtonClick (event: Event) {
-    event.preventDefault()
-    this.onLeftButton.emit(event)
-  }
-
-  onRightButtonClick (event: Event) {
-    event.preventDefault()
-    this.onRightButton.emit(event)
   }
 }

@@ -1,19 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ToastService } from 'src/app/core/services/toast.service';
+import { Component } from '@angular/core'
+import { ToastService } from 'src/app/core/services/toast.service'
 
 @Component({
   selector: 'app-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.css']
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent {
+  constructor(public toastService: ToastService) {}
 
-  constructor (public toastService: ToastService) { }
-
-  ngOnInit(): void {
-  }
-
-  dismiss (id: string) {
+  dismiss(id: string): void {
     this.toastService.dismissToast(id)
   }
 }

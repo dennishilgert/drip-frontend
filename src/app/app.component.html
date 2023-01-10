@@ -3,8 +3,12 @@
   <app-popup></app-popup>
   <app-header></app-header>
   <div class="w-full h-full flex flex-1 flex-col justify-center items-center p-6">
-    <app-loading *ngIf="!isReady" size="large">Initializing</app-loading>
-    <router-outlet *ngIf="isReady"></router-outlet>
+    <div *ngIf="ready; else showInitializing">
+      <router-outlet></router-outlet>
+    </div>
+    <ng-template #showInitializing>
+      <app-loading size="large">Initializing</app-loading>
+    </ng-template>
   </div>
   <app-footer></app-footer>
 </div>

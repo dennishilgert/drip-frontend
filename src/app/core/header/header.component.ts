@@ -1,38 +1,35 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ICombinedSending, IFileSending, IMessageSending, ISending } from 'src/app/models/sending.model';
-import { ModalComponent, ModalState } from 'src/app/shared/components/modal/modal.component';
-import { SendingService } from '../services/sending.service';
+import { Component, ViewChild } from '@angular/core'
+import { ICombinedTransmission } from 'src/app/models/transmission.model'
+import { ModalComponent, ModalState } from 'src/app/shared/components/modal/modal.component'
+import { TransmissionService } from '../services/transmission.service'
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   @ViewChild('inboxModal') inboxModalComponent!: ModalComponent
 
-  get inbox (): ICombinedSending[] {
-    return this.sendingService.inbox
+  get inbox(): ICombinedTransmission[] {
+    return this.transmissionService.inbox
   }
 
-  get unreadSendings (): boolean {
-    return (this.inboxModalComponent?.state === ModalState.HIDDEN) && this.sendingService.unreadSendings
+  get unreadTransmissions(): boolean {
+    return this.inboxModalComponent?.state === ModalState.HIDDEN && this.transmissionService.unreadTransmissions
   }
 
-  constructor (private sendingService: SendingService) { }
+  constructor(private transmissionService: TransmissionService) {}
 
-  ngOnInit(): void {
-  }
-
-  clearInbox (event: Event): void {
+  clearInbox(event: Event): void {
     event.preventDefault()
-    this.sendingService.clearInbox()
+    this.transmissionService.clearInbox()
   }
 
-  toggleInboxModal (event: Event): void {
+  toggleInboxModal(event: Event): void {
     event.preventDefault()
     this.inboxModalComponent.toggleModal(event)
 
-    this.sendingService.unreadSendings = false
+    this.transmissionService.unreadTransmissions = false
   }
 }

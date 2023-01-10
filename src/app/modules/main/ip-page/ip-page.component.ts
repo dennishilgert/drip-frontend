@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NearbyService } from 'src/app/core/services/nearby.service';
-import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
+import { Component, OnInit } from '@angular/core'
+import { NearbyService } from 'src/app/core/services/nearby.service'
+import { INearbyIdentity } from 'src/app/models/nearby-identity.model'
 
 @Component({
   selector: 'app-ip-page',
@@ -8,31 +8,31 @@ import { INearbyIdentity } from 'src/app/models/nearby-identity.model';
   styleUrls: ['./ip-page.component.css']
 })
 export class IpPageComponent implements OnInit {
+  private _loading = true
 
-  private _loading: boolean = true
-
-  get isLoading (): boolean {
+  get loading(): boolean {
     return this._loading
   }
 
-  get nearbyIdentities (): Array<INearbyIdentity> {
+  get nearbyIdentities(): Array<INearbyIdentity> {
     return this.nearbyService.nearbyIpIdentities
   }
 
-  get isNearbyExisting (): boolean {
+  get nearbyExisting(): boolean {
     return this.nearbyService.nearbyIpIdentities.length > 0
   }
 
-  constructor (private nearbyService: NearbyService) { }
+  constructor(private nearbyService: NearbyService) {}
 
   ngOnInit(): void {
     this.updateNearbyIdentities()
   }
 
-  updateNearbyIdentities (): void {
+  updateNearbyIdentities(): void {
     console.log('Nearby ip identities updating ...')
 
-    this.nearbyService.updateNearbyIpIdentities()
+    this.nearbyService
+      .updateNearbyIpIdentities()
       .then(() => {
         this._loading = false
       })

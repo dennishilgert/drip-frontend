@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as Joi from 'joi';
-import { IInputValidation } from 'src/app/models/input-validation.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import * as Joi from 'joi'
+import { IInputValidation } from 'src/app/models/input-validation.model'
+import { randomString } from '../../helpers/stringHelper'
 
 @Component({
   selector: 'app-input',
@@ -8,36 +9,34 @@ import { IInputValidation } from 'src/app/models/input-validation.model';
   styleUrls: ['./input.component.css']
 })
 export class InputComponent implements OnInit {
-  @Input() placeholder: string = ''
-  @Input() name: string = ''
-  @Input() inputType: string = 'text'
-  @Input() value: string = ''
-  @Input() width: string = 'w-full'
+  readonly id: string = randomString(8)
+  @Input() placeholder = ''
+  @Input() name = ''
+  @Input() inputType = 'text'
+  @Input() value = ''
   @Input() validation: IInputValidation = { valid: true, message: '', schema: Joi.any() }
-  @Input() forceValidation: number = 0
-  @Input() disabled: boolean = false
-  @Output() onInputChange: EventEmitter<string> = new EventEmitter<string>()
-  @Output() onValidationChange: EventEmitter<IInputValidation> = new EventEmitter<IInputValidation>()
+  @Input() forceValidation = 0
+  @Input() disabled = false
+  @Output() inputChange: EventEmitter<string> = new EventEmitter<string>()
+  @Output() validationChange: EventEmitter<IInputValidation> = new EventEmitter<IInputValidation>()
 
-  previousValue: string = ''
-  initialInputType: string = 'text'
-  visible: boolean = false
+  previousValue = ''
+  initialInputType = 'text'
+  visible = false
 
-  get isValid () {
+  get isValid(): boolean {
     return this.validation.valid
   }
 
-  get isVisible () {
+  get isVisible(): boolean {
     return this.visible
   }
-
-  constructor () { }
 
   ngOnInit(): void {
     this.initialInputType = this.inputType
   }
 
-  validate () {
+  validate(): void {
     // return if the value hasn't changed since the last validation
     if (this.previousValue && this.previousValue === this.value) {
       return
@@ -58,17 +57,18 @@ export class InputComponent implements OnInit {
     }
     // emit the validation updaten event to update the validation object in the parent as well
     // this will display the validation result to the user
-    this.onValidationChange.emit({ valid: valid, message: message, schema: this.validation.schema })
+    this.validation = { valid: valid, message: message, schema: this.validation.schema }
+    this.validationChange.emit(this.validation)
     this.previousValue = this.value || ''
   }
 
-  clearInput (event: Event) {
+  clearInput(event: Event): void {
     event.preventDefault()
     this.value = ''
-    this.onInputChange.emit(this.value)
+    this.inputChange.emit(this.value)
   }
 
-  changeInputVisibility (event: Event) {
+  changeInputVisibility(event: Event): void {
     event.preventDefault()
     this.visible = !this.visible
     if (this.visible) {

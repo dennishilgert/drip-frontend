@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { IToast } from 'src/app/models/toast.model';
-import { randomString } from 'src/app/shared/helpers/stringHelper';
+import { Injectable } from '@angular/core'
+import { IToast } from 'src/app/models/toast.model'
+import { randomString } from 'src/app/shared/helpers/stringHelper'
 
 export enum ToastType {
   INFO = 'info',
@@ -12,22 +12,19 @@ export enum ToastType {
   providedIn: 'root'
 })
 export class ToastService {
-
   private _toasts: Map<string, IToast> = new Map<string, IToast>()
 
-  get toasts (): Array<IToast> {
+  get toasts(): Array<IToast> {
     return Array.from(this._toasts.values()).sort((a: IToast, b: IToast) => {
-      if (a.triggeredAt! < b.triggeredAt!) return 1 // b's timestamp is bigger
-      if (a.triggeredAt! > b.triggeredAt!) return -1 // a's timestamp is bigger
+      if ((a.triggeredAt as Date) < (b.triggeredAt as Date)) return 1 // b's timestamp is bigger
+      if ((a.triggeredAt as Date) > (b.triggeredAt as Date)) return -1 // a's timestamp is bigger
       return 0
     })
   }
 
-  constructor () { }
-
-  async showToast (toast: IToast): Promise<void> {
+  async showToast(toast: IToast): Promise<void> {
     if (this._toasts.size >= 5) {
-      this._toasts.delete((this.toasts.pop() as IToast).id!)
+      this._toasts.delete((this.toasts.pop() as IToast).id as string)
     }
     toast.id = randomString(8)
     toast.triggeredAt = new Date()
@@ -37,11 +34,11 @@ export class ToastService {
     this.animateToast(toast.id)
 
     setTimeout(() => {
-      this.dismissToast(toast.id!)
+      this.dismissToast(toast.id as string)
     }, 8000)
   }
 
-  async dismissToast (id: string): Promise<void> {
+  async dismissToast(id: string): Promise<void> {
     if (!this._toasts.has(id)) return
 
     this.animateToast(id)
@@ -51,8 +48,8 @@ export class ToastService {
     }, 200)
   }
 
-  animateToast (id: string): void {
-    let animated: boolean = false
+  animateToast(id: string): void {
+    let animated = false
     let toastElement: HTMLElement | null = document.getElementById(id)
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {
