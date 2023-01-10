@@ -8,6 +8,7 @@ import { NearbyService } from './nearby.service'
 import { PopupBuilder, PopupService } from './popup.service'
 import { StateService } from './state.service'
 import { ToastService, ToastType } from './toast.service'
+import { environment } from 'src/environments/environment'
 
 export enum SocketEvent {
   CONNECT = 'connect',
@@ -36,6 +37,7 @@ export class SocketRequestTimeoutError extends Error {}
   providedIn: 'root'
 })
 export class SocketService {
+  private readonly url: string = environment.socket.url
   private readonly socket: Socket
 
   constructor(
@@ -44,7 +46,7 @@ export class SocketService {
     private toastService: ToastService,
     private popupService: PopupService
   ) {
-    this.socket = io('http://localhost:8082', {
+    this.socket = io(this.url, {
       autoConnect: false
     })
   }

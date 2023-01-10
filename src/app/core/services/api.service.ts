@@ -17,7 +17,7 @@ export interface HttpRequestOptions {
   providedIn: 'root'
 })
 export class ApiService {
-  readonly baseUrl: string = environment.api.baseUrl
+  private readonly baseUrl: string = environment.api.baseUrl
 
   constructor(private http: HttpClient) {}
 
