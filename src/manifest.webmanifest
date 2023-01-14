@@ -4,7 +4,7 @@
   "description": "A platform to share data",
   "id": "/",
   "start_url": "./",
-  "theme_color": "#007cf0",
+  "theme_color": "#191A1F",
   "background_color": "#191A1F",
   "orientation": "any",
   "display": "standalone",
