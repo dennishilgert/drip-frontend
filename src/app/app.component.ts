@@ -38,6 +38,5 @@ export class AppComponent implements OnInit {
     }
 
     window.addEventListener('error', errorHandler)
-    window.addEventListener('unhandledrejection', errorHandler)
   }
 }
