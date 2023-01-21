@@ -1,7 +1,7 @@
 <div *ngIf="currentPopup">
   <div
     [id]="'container-' + currentPopup!.id"
-    class="fixed inset-0 w-full h-screen flex flex-col justify-center items-center px-8 z-20 invisible"
+    class="fixed inset-0 w-full min-h-[100svh] flex flex-col justify-center items-center px-8 z-20 invisible"
   >
     <div
       [id]="'background-' + currentPopup!.id"
