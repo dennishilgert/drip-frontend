@@ -51,18 +51,6 @@ export class LocationPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initGeolocation()
-
-    this.toastService.showToast({
-      title: 'Variables first',
-      content: `Loading: ${this.loading}, Geolocation: ${this.hasGeolocationAccess}`
-    })
-
-    setTimeout(() => {
-      this.toastService.showToast({
-        title: 'Variables second',
-        content: `Loading: ${this.loading}, Geolocation: ${this.hasGeolocationAccess}`
-      })
-    }, 3000)
   }
 
   initGeolocation(): void {
