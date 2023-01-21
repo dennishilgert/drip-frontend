@@ -42,9 +42,10 @@ export class LocationPageComponent implements OnInit {
       permissionStatus.onchange = () => {
         this.stateService.geolocationAccess = permissionStatus.state === 'granted'
         this.initGeolocation()
-        this.toastService.showToast({ title: 'Permission status changed' })
       }
-      this.stateService.geolocationAccess = permissionStatus.state === 'granted'
+      this.stateService.geolocationAccess = this.stateService.hasGeolocationAccess
+        ? true
+        : permissionStatus.state === 'granted'
     })
   }
 
@@ -67,7 +68,6 @@ export class LocationPageComponent implements OnInit {
   initGeolocation(): void {
     if (!this.identityService.isGeolocationSet) {
       console.log('Identity geolocation updating ...')
-      this.toastService.showToast({ title: 'Identity geolocation updating' })
 
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
@@ -105,7 +105,6 @@ export class LocationPageComponent implements OnInit {
   updateNearbyIdentities(): void {
     if (this.identityService.isGeolocationSet) {
       console.log('Nearby geolocation identities updating ...')
-      this.toastService.showToast({ title: 'Nearby geolocation identities updating' })
 
       this.nearbyService
         .updateNearbyGeolocationIdentities()
