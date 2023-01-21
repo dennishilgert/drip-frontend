@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { IdentityService } from 'src/app/core/services/identity.service'
 import { NearbyService } from 'src/app/core/services/nearby.service'
 import { SocketEvent, SocketService } from 'src/app/core/services/socket.service'
+import { StateService } from 'src/app/core/services/state.service'
 import { ToastService, ToastType } from 'src/app/core/services/toast.service'
 import { IUpdateIdentityLocationData } from 'src/app/models/identity.model'
 import { INearbyIdentity } from 'src/app/models/nearby-identity.model'
@@ -13,14 +14,13 @@ import { INearbyIdentity } from 'src/app/models/nearby-identity.model'
 })
 export class LocationPageComponent implements OnInit {
   private _loading = true
-  private _geolocationAccess = false
 
   get loading(): boolean {
     return this._loading
   }
 
   get hasGeolocationAccess(): boolean {
-    return this._geolocationAccess
+    return this.stateService.hasGeolocationAccess
   }
 
   get nearbyIdentities(): Array<INearbyIdentity> {
@@ -35,14 +35,15 @@ export class LocationPageComponent implements OnInit {
     private identityService: IdentityService,
     private nearbyService: NearbyService,
     private socketService: SocketService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private stateService: StateService
   ) {
     navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus: PermissionStatus) => {
       permissionStatus.onchange = () => {
-        this._geolocationAccess = permissionStatus.state === 'granted'
+        this.stateService.geolocationAccess = permissionStatus.state === 'granted'
         this.initGeolocation()
       }
-      this._geolocationAccess = permissionStatus.state === 'granted'
+      this.stateService.geolocationAccess = permissionStatus.state === 'granted'
     })
   }
 
@@ -57,7 +58,7 @@ export class LocationPageComponent implements OnInit {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           // fallback if browsers do not support permission status change event
-          this._geolocationAccess = true
+          this.stateService.geolocationAccess = true
 
           const input: IUpdateIdentityLocationData = {
             geolocation: {
