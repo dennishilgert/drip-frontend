@@ -56,6 +56,9 @@ export class LocationPageComponent implements OnInit {
 
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
+          // fallback if browsers do not support permission status change event
+          this._geolocationAccess = true
+
           const input: IUpdateIdentityLocationData = {
             geolocation: {
               longitude: position.coords.longitude,
