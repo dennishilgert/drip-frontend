@@ -146,7 +146,13 @@ export class NearbyIdentityComponent {
           type: ToastType.ERROR
         })
       })
-      .catch(() => {
+      .catch((error: Error) => {
+        if (error instanceof SocketRequestTimeoutError) {
+          this.toastService.showToast({
+            title: `${this.name} has not responded to your message transmission`,
+            type: ToastType.ERROR
+          })
+        }
         this._messageLoading = false
       })
   }
