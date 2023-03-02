@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core'
 import { ICombinedTransmission } from 'src/app/models/transmission.model'
 import { ModalComponent, ModalState } from 'src/app/shared/components/modal/modal.component'
 import { TransmissionService } from '../services/transmission.service'
+import linkifyHtml from 'linkify-html'
 
 @Component({
   selector: 'app-header',
@@ -31,5 +32,9 @@ export class HeaderComponent {
     this.inboxModalComponent.toggleModal(event)
 
     this.transmissionService.unreadTransmissions = false
+  }
+
+  linkify(message: string): string {
+    return linkifyHtml(message, { defaultProtocol: 'https' })
   }
 }
