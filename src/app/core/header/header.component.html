@@ -45,9 +45,8 @@
               'text-light': transmission.message,
               'text-basic-300': !transmission.message
             }"
-          >
-            {{ transmission.message ? linkify(transmission.message!) : transmission.fileOriginalName! }}
-          </div>
+            [innerHTML]="transmission.message ? linkify(transmission.message!) : transmission.fileOriginalName!"
+          ></div>
           <div class="text-sm text-basic">{{ transmission.receivedAt!.toLocaleTimeString() }}</div>
         </div>
       </div>
