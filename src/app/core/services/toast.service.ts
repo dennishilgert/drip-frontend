@@ -22,7 +22,7 @@ export class ToastService {
     })
   }
 
-  async showToast(toast: IToast): Promise<void> {
+  async showToast(toast: IToast): Promise<string> {
     if (this._toasts.size >= 5) {
       this._toasts.delete((this.toasts.pop() as IToast).id as string)
     }
@@ -36,6 +36,8 @@ export class ToastService {
     setTimeout(() => {
       this.dismissToast(toast.id as string)
     }, 8000)
+
+    return toast.id
   }
 
   async dismissToast(id: string): Promise<void> {

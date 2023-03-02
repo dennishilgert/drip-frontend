@@ -14,6 +14,10 @@ export enum SocketEvent {
   CONNECT = 'connect',
   CONNECT_ERROR = 'connect_error',
   DISCONNECT = 'disconnect',
+  RECONNECT_ATTEMPT = 'reconnect_attempt',
+  RECONNECT = 'reconnect',
+  RECONNECT_ERROR = 'reconnect_error',
+  RECONNECT_FAILED = 'reconnect_failed',
   IDENTIFY = 'identify',
   REQUEST = 'request',
   REQUEST_TIMEOUT = 'request:timeout',
@@ -61,15 +65,58 @@ export class SocketService {
       this.emitEvent(SocketEvent.IDENTIFY, identity.uuid)
     })
 
+    this.socket.on(SocketEvent.CONNECT_ERROR, (error: Error) => {
+      console.log('Socket connection failed. Attempting again ...', error)
+
+      this.toastService.showToast({
+        title: `Failed to connect. Attempting again ...`,
+        type: ToastType.ERROR
+      })
+
+      setTimeout(() => {
+        this.socket.connect()
+      }, 3000)
+    })
+
     this.socket.on(SocketEvent.DISCONNECT, (reason: Socket.DisconnectReason) => {
       console.log('Socket disconnected', reason)
     })
 
-    this.socket.on(SocketEvent.CONNECT_ERROR, (error: Error) => {
-      console.log('Socket connection failed. Attempting again ...', error)
-      setTimeout(() => {
-        this.socket.connect()
-      }, 3000)
+    this.socket.on(SocketEvent.RECONNECT_ATTEMPT, (attempt: number) => {
+      console.log(`Socket trying to reconnect attempt ${attempt} ...`)
+
+      this.toastService.showToast({
+        title: `Reconnecting ...`,
+        content: `Attempt ${attempt}`,
+        type: ToastType.INFO
+      })
+    })
+
+    this.socket.on(SocketEvent.RECONNECT, () => {
+      console.log('Socket reconnected')
+
+      this.toastService.showToast({
+        title: 'Connection restored',
+        type: ToastType.INFO
+      })
+    })
+
+    this.socket.on(SocketEvent.RECONNECT_ERROR, (error: Error) => {
+      console.log('Socket error while trying to reconnect', error)
+
+      this.toastService.showToast({
+        title: 'Error while trying to restore connection',
+        type: ToastType.ERROR
+      })
+    })
+
+    this.socket.on(SocketEvent.RECONNECT_FAILED, () => {
+      console.log('Socket reconnection failed')
+
+      this.toastService.showToast({
+        title: 'Failed to restore connection',
+        type: ToastType.ERROR
+      })
     })
 
     this.socket.on(SocketEvent.UPDATE_NEARBY_IP, () => {
