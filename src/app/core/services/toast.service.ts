@@ -35,7 +35,7 @@ export class ToastService {
 
     setTimeout(() => {
       this.dismissToast(toast.id as string)
-    }, 8000)
+    }, 1000 * 10)
 
     return toast.id
   }
