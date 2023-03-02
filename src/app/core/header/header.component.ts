@@ -35,6 +35,11 @@ export class HeaderComponent {
   }
 
   linkify(message: string): string {
-    return linkifyHtml(message, { defaultProtocol: 'https' })
+    return linkifyHtml(message, {
+      defaultProtocol: 'https',
+      target: '_blank',
+      className: 'text-light hover:text-light-700 transition-colors ease-in-out duration-200',
+      truncate: 48
+    })
   }
 }
