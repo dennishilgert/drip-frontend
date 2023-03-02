@@ -152,6 +152,12 @@ export class NearbyIdentityComponent {
             title: `${this.name} has not responded to your message transmission`,
             type: ToastType.ERROR
           })
+        } else {
+          this.toastService.showToast({
+            title: `Failed to send message transmission request`,
+            content: error.message,
+            type: ToastType.ERROR
+          })
         }
         this._messageLoading = false
       })
@@ -198,6 +204,12 @@ export class NearbyIdentityComponent {
         if (error instanceof SocketRequestTimeoutError) {
           this.toastService.showToast({
             title: `${this.name} has not responded to your file transmission`,
+            type: ToastType.ERROR
+          })
+        } else {
+          this.toastService.showToast({
+            title: `Failed to send file transmission request`,
+            content: error.message,
             type: ToastType.ERROR
           })
         }
