@@ -30,7 +30,7 @@ export class NearbyIdentityComponent {
   private _messageInputValidation: IInputValidation = {
     valid: true,
     message: '',
-    schema: Joi.string().max(256).required().messages({
+    schema: Joi.string().max(1024).required().messages({
       'string.max': 'The message should not exceed the length of {#limit} characters'
     })
   }
