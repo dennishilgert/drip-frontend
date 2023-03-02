@@ -7,9 +7,8 @@ export class GlobalErrorHandler implements ErrorHandler {
   constructor(private zone: NgZone, private toastService: ToastService) {}
 
   handleError(error: any) {
-    // Check if it's an error from an HTTP response
-    if (!(error instanceof HttpErrorResponse)) {
-      error = error.rejection // get the error object
+    if (error instanceof HttpErrorResponse) {
+      return
     }
     this.zone.run(() =>
       this.toastService.showToast({
